@@ -46,11 +46,12 @@ This application is 100% compatible and ready for instant deployment on static h
 
 ## ✨ Features
 
-- **Interactive Visual Mnemonics:** Association of Hangul consonants and vowels with visual shapes (e.g., `ㄱ` looking like a **G**un, `ㄷ` looking like a **D**oor).
+- **Interactive Visual Mnemonics:** Association of Hangul consonants and vowels with visual shapes and Ryan Estrada's mnemonic method (e.g., `ㄱ` looking like a **G**un, `ㄷ` looking like a **D**oor).
+- **The "Notch" Rule Slide:** Explains Ryan Estrada's method on how adding a notch transforms consonants (`ㄱ` → `ㅋ`, `ㄷ` → `ㅌ`, `ㅇ` → `ㅎ`, `ㅅ` → `ㅈ` → `ㅊ`).
+- **Dynamic Slide Counters:** Clear card-level step counts (e.g., `1 / 14` for basic consonants, `1 / 10` for vowels).
 - **Interactive Writing Practice:** A built-in HTML5 Canvas-based sketchpad modal that lets users practice drawing each character with a guiding stencil backdrop.
 - **Audio Pronunciation:** Integrates with the browser's native Web Speech API (`SpeechSynthesis`) to read out the correct Korean pronunciation for every character and syllable.
-- **Progress Tracking:** Interactive progress header indicating progress through the consonants, vowels, and syllable blocks.
-- **Gamified Quiz Phase:** A rapid-fire review quiz at the end of the lesson to test what the user has learned.
+- **Progress Tracking & Four Learning Modules:** Step-by-step Jamo course, Pop-Culture training, Interactive Review Table, and the History of Hangul.
 
 ---
 
@@ -90,9 +91,12 @@ This application is 100% compatible and ready for instant deployment on static h
 - [x] Modular Architecture (HTML/CSS/JS)
 - [x] Interactive Review Table (Auto-evaluation, Audio, Drawing)
 - [x] "Pop-Culture" Training Mode (Ryan Estrada method)
-- [x] Add a 4th module that tells the story of the Korean language (Hangeul) in 5 slides.
-
+- [x] History of Hangeul module (5 interactive slides)
+- [x] Responsive layout with single-line home navigation bar
+- [x] Ryan Estrada's "Kick It Up a Notch!" aspiration rule slide
+- [x] Slide counters for all lesson card series (1/14, 1/10, etc.)
+- [x] Korean Flag SVG Favicon
 
 ### ⏳ To Do
-- [ ] make the module line larger
-- [ ] add a slide at the end of double consonants and complex voyels that explains as Ryan
+
+- [ ] Automatic stroke validation on the writing board (80% accuracy check on stencil path)
