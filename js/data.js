@@ -16,7 +16,7 @@ const flowSteps = [
             { type: "Consonant", char: "ㅁ", name: "mieum", sound: "m", icon: "🗺️", mnemonic: "Basic consonant <b>mieum</b>, pronounced <b>m</b> like a <b><span class=\"text-indigo-500\">M</span>ap</b>.", spoken: "ㅁ" },
             { type: "Consonant", char: "ㅂ", name: "bieup", sound: "b", icon: "🪣", mnemonic: "Basic consonant <b>bieup</b>, pronounced <b>b</b> like a <b><span class=\"text-indigo-500\">B</span>ucket</b>.", spoken: "ㅂ" },
             { type: "Consonant", char: "ㅅ", name: "sieut", sound: "s", icon: "⛰️", mnemonic: "Basic consonant <b>sieut</b>, pronounced <b>s</b> like a <b><span class=\"text-indigo-500\">S</span>ummit</b>.", spoken: "ㅅ" },
-            { type: "Consonant", char: "ㅇ", name: "ieung", sound: "ng", icon: "⭕", mnemonic: "Basic consonant <b>ieung</b>, like a <b>Zero</b> (no sound) or <b>ri<span class=\"text-indigo-500\">NG</span></b> at the end.", spoken: "ㅇ" },
+            { type: "Consonant", char: "ㅇ", name: "ieung", sound: "ng", icon: "⭕", mnemonic: "Basic consonant <b>ieung</b>, like a <b>Nothi<span class=\"text-indigo-500\">ng</span></b> (no sound) or <b><span class=\"text-indigo-500\">ng</span></b> at the end.", spoken: "ㅇ" },
             { type: "Consonant", char: "ㅈ", name: "jieut", sound: "j", icon: "👖", mnemonic: "Basic consonant <b>jieut</b>, pronounced <b>j</b> like <b><span class=\"text-indigo-500\">J</span>eans</b>.", spoken: "ㅈ" },
             { type: "Consonant", char: "ㅊ", name: "chieut", sound: "ch", icon: "🐓", mnemonic: "Basic consonant <b>chieut</b>, pronounced <b>ch</b> like a <b><span class=\"text-indigo-500\">Ch</span>icken</b>.", spoken: "ㅊ" },
             { type: "Consonant", char: "ㅋ", name: "kieuk", sound: "k", icon: "🔑", mnemonic: "Basic consonant <b>kieuk</b>, pronounced <b>k</b> like a <b><span class=\"text-indigo-500\">K</span>ey</b>.", spoken: "ㅋ" },
@@ -74,6 +74,14 @@ const flowSteps = [
             { type: "Compound Vowel", char: "ㅟ", name: "wi", sound: "wi", icon: "🌊🌲", mnemonic: "Compound vowel <b>wi</b>, pronounced <b>wi</b>.", spoken: "ㅟ" },
             { type: "Compound Vowel", char: "ㅢ", name: "ui", sound: "eui", icon: "🌊🌲", mnemonic: "Compound vowel <b>ui</b>, pronounced <b>eui</b>.", spoken: "ㅢ" }
         ]
+    },
+
+    // The Notch Rule Slide
+    { 
+        type: 'slide', 
+        title: "Kick It Up a Notch!", 
+        emoji: "💡", 
+        text: "If you add a little notch to the letters, you can change the sound they make!<br><br>• <b>ㄱ (G)</b> becomes <b>ㅋ (K)</b><br>• <b>ㄷ (D)</b> becomes <b>ㅌ (T)</b><br>• <b>ㅇ (Nothing)</b> becomes <b>ㅎ (H)</b><br>• <b>ㅅ (S)</b> becomes <b>ㅈ (J)</b>, add one more notch, and you get <b>ㅊ (CH)</b>" 
     }
 ];
 
@@ -115,7 +123,7 @@ const trainingExercises = [
         choices: ["Snoopy", "Totoro", "Pikachu", "Elmo"],
         answer: "Totoro"
     },
-    
+
     // TYPE: Text -> Hangul
     {
         type: "text-to-hangul",
