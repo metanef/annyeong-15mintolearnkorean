@@ -30,16 +30,16 @@ const flowSteps = [
     { type: 'slide', title: "Vowels", emoji: "✨", text: "Learn the 10 basic vowels with their exact phonetic sounds." },
     {
         type: 'lesson', group: 'vowels', items: [
+            { type: "Vowel", char: "ㅣ", name: "i", sound: "i", icon: "🌲", mnemonic: "Vowel <b>i</b>, straight like a <b>Tr<span class=\"text-indigo-500\">ee</span></b>.", spoken: "ㅣ" },
             { type: "Vowel", char: "ㅏ", name: "a", sound: "a", icon: "➡️", mnemonic: "Vowel <b>a</b>, Branch pointing <b>Out (<span class=\"text-indigo-500\">A</span>h!)</b>.", spoken: "ㅏ" },
             { type: "Vowel", char: "ㅑ", name: "ya", sound: "ya", icon: "⏩", mnemonic: "Vowel <b>ya</b>, Two branches pointing <b>Out (<span class=\"text-indigo-500\">Ya</span>h!)</b>.", spoken: "ㅑ" },
             { type: "Vowel", char: "ㅓ", name: "eo", sound: "eo (open o)", icon: "⬅️", mnemonic: "Vowel <b>eo</b>, Branch pointing <b>In (<span class=\"text-indigo-500\">U</span>h!)</b>.", spoken: "ㅓ" },
             { type: "Vowel", char: "ㅕ", name: "yeo", sound: "yeo (open o)", icon: "⏪", mnemonic: "Vowel <b>yeo</b>, Two branches pointing <b>In (<span class=\"text-indigo-500\">Yu</span>h!)</b>.", spoken: "ㅕ" },
+            { type: "Vowel", char: "ㅡ", name: "eu", sound: "eu", icon: "〰️", mnemonic: "Vowel <b>eu</b>, flat like a <b>Brook</b> (say <span class=\"text-indigo-500\">eu</span>hhh).", spoken: "ㅡ" },
             { type: "Vowel", char: "ㅗ", name: "o", sound: "o", icon: "⬆️", mnemonic: "Vowel <b>o</b>, Pointing <b><span class=\"text-indigo-500\">O</span>ver</b>.", spoken: "ㅗ" },
             { type: "Vowel", char: "ㅛ", name: "yo", sound: "yo", icon: "⏫", mnemonic: "Vowel <b>yo</b>, Two branches pointing <b><span class=\"text-indigo-500\">O</span>ver</b>.", spoken: "ㅛ" },
             { type: "Vowel", char: "ㅜ", name: "u", sound: "u", icon: "⬇️", mnemonic: "Vowel <b>u</b>, Pointing <b><span class=\"text-indigo-500\">U</span>nder</b>.", spoken: "ㅜ" },
-            { type: "Vowel", char: "ㅠ", name: "yu", sound: "yu", icon: "⏬", mnemonic: "Vowel <b>yu</b>, Two branches pointing <b><span class=\"text-indigo-500\">U</span>nder</b>.", spoken: "ㅠ" },
-            { type: "Vowel", char: "ㅡ", name: "eu", sound: "eu", icon: "〰️", mnemonic: "Vowel <b>eu</b>, flat like a <b>Brook</b> (say <span class=\"text-indigo-500\">eu</span>hhh).", spoken: "ㅡ" },
-            { type: "Vowel", char: "ㅣ", name: "i", sound: "i", icon: "🌲", mnemonic: "Vowel <b>i</b>, straight like a <b>Tr<span class=\"text-indigo-500\">ee</span></b>.", spoken: "ㅣ" }
+            { type: "Vowel", char: "ㅠ", name: "yu", sound: "yu", icon: "⏬", mnemonic: "Vowel <b>yu</b>, Two branches pointing <b><span class=\"text-indigo-500\">U</span>nder</b>.", spoken: "ㅠ" }
         ]
     },
 
