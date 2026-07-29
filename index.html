@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apprendre le coréen en 15 minutes</title>
+    <!-- Tailwind CSS v4 via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="h-full bg-slate-50 text-slate-800 flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
+
+    <!-- En-tête -->
+    <header class="w-full bg-white border-b border-slate-100 py-4 px-6 shadow-xs flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <span class="bg-indigo-600 text-white font-extrabold text-sm px-3 py-1.5 rounded-xl shadow-xs">한글</span>
+            <h1 class="font-bold text-lg text-slate-900 tracking-tight">Coréen en 15 min</h1>
+        </div>
+        <div id="progress-container" class="hidden md:flex items-center space-x-2">
+            <span id="progress-text" class="text-xs font-semibold text-slate-500">Étape 1 sur X</span>
+            <div class="w-32 bg-slate-100 h-2 rounded-full overflow-hidden">
+                <div id="progress-bar" class="bg-indigo-600 h-full w-0 transition-all duration-300"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenu Principal -->
+    <main class="flex-1 max-w-2xl w-full mx-auto p-6 flex flex-col justify-center items-center">
+        
+        <!-- Écran d'accueil -->
+        <div id="welcome-screen" class="w-full bg-white rounded-3xl p-8 shadow-xl shadow-indigo-100/50 border border-slate-100 text-center fade-in">
+            <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black mb-6 shadow-inner">
+                🚀
+            </div>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">Apprenez à lire le coréen</h2>
+            <p class="text-slate-500 text-sm md:text-base mb-8 leading-relaxed">
+                Méthode visuelle interactive basée sur les associations mnémotechniques (façon Ryan Estrada). Écoutez, apprenez et testez vos connaissances en quelques minutes.
+            </p>
+            <button onclick="startApp()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-8 rounded-2xl shadow-lg shadow-indigo-200 transition-all transform active:scale-95 cursor-pointer">
+                Commencer l'apprentissage
+            </button>
+        </div>
+
+        <!-- Écran de Leçon / Cours Interactif -->
+        <div id="lesson-screen" class="w-full hidden flex flex-col items-center">
+            <div id="card-container" class="w-full bg-white rounded-3xl p-8 shadow-xl shadow-slate-100 border border-slate-100 text-center fade-in relative overflow-hidden">
+                
+                <!-- Badge Catégorie -->
+                <div id="lesson-badge" class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 bg-indigo-50 text-indigo-600">
+                    Consonne
+                </div>
+
+                <!-- Caractère Coréen Géant -->
+                <div class="my-4">
+                    <span id="char-target" class="text-7xl md:text-8xl font-black text-slate-900 tracking-wider">ㅂ</span>
+                </div>
+
+                <!-- Son / Transcription -->
+                <div class="text-indigo-600 font-bold text-lg mb-6" id="char-sound-label">Son : B</div>
+
+                <!-- Mnémotechnique & Visuel (Style Ryan Estrada) -->
+                <div class="bg-slate-50 rounded-2xl p-5 mb-8 border border-slate-100 text-left">
+                    <div class="flex items-start space-x-4">
+                        <div class="text-3xl">💡</div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Moyen mnémotechnique</h4>
+                            <p id="char-mnemonic" class="text-slate-700 font-medium text-sm md:text-base">
+                                Ça ressemble à un seau (<span class="font-bold text-indigo-600">Bucket</span>), qui commence par B.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions (Audio & Dessin simulé / Validation) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                    <button onclick="playAudio()" class="flex items-center justify-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3.5 px-4 rounded-xl transition-all cursor-pointer">
+                        <span>🔊 Écouter la prononciation</span>
+                    </button>
+                    <button onclick="openDrawModal()" class="flex items-center justify-center space-x-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold py-3.5 px-4 rounded-xl transition-all cursor-pointer">
+                        <span>✏️ S'entraîner à tracer</span>
+                    </button>
+                </div>
+
+                <!-- Bouton Suivant -->
+                <button onclick="nextStep()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-2xl shadow-lg shadow-indigo-200 transition-all transform active:scale-95 cursor-pointer">
+                    Étape suivante →
+                </button>
+            </div>
+        </div>
+
+        <!-- Écran de Quiz / Flashcard -->
+        <div id="quiz-screen" class="w-full hidden flex flex-col items-center">
+            <div class="w-full bg-white rounded-3xl p-8 shadow-xl shadow-slate-100 border border-slate-100 text-center fade-in">
+                <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 bg-amber-50 text-amber-600">
+                    Quiz Rapide ⚡
+                </span>
+                <h3 id="quiz-question" class="text-xl font-bold text-slate-900 mb-6">Quel est le son de ce caractère ?</h3>
+                
+                <div class="my-6">
+                    <span id="quiz-char" class="text-7xl font-black text-slate-900">ㅂ</span>
+                </div>
+
+                <div id="quiz-options" class="grid grid-cols-2 gap-3 mb-6">
+                    <!-- Généré dynamiquement -->
+                </div>
+                <div id="quiz-feedback" class="text-sm font-semibold h-6 mb-4"></div>
+            </div>
+        </div>
+
+        <!-- Écran de Fin -->
+        <div id="end-screen" class="w-full hidden bg-white rounded-3xl p-8 shadow-xl shadow-indigo-100/50 border border-slate-100 text-center fade-in">
+            <div class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black mb-6 shadow-inner">
+                🎉
+            </div>
+            <h2 class="text-2xl font-extrabold text-slate-900 mb-3">Félicitations !</h2>
+            <p class="text-slate-500 text-sm md:text-base mb-8">
+                Vous avez terminé les bases essentielles pour lire le coréen. Vous pouvez maintenant commencer à décoder vos premiers mots.
+            </p>
+            <button onclick="restartApp()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-8 rounded-2xl shadow-lg shadow-indigo-200 transition-all transform active:scale-95 cursor-pointer">
+                Recommencer l'entraînement
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Modal d'entraînement au tracé interactif -->
+    <div id="draw-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-100 text-center fade-in">
+            <h3 class="font-bold text-lg text-slate-900 mb-2">Zone d'entraînement</h3>
+            <p class="text-xs text-slate-500 mb-4">Tracez mentalement ou sur votre écran le caractère en suivant le modèle.</p>
+            <div class="bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl h-40 flex items-center justify-center mb-6 relative">
+                <span id="modal-char" class="text-6xl font-black text-slate-300">ㅂ</span>
+                <span class="absolute inset-0 flex items-center justify-center text-xs font-semibold text-slate-400 pointer-events-none">Reproduisez le tracé</span>
+            </div>
+            <button onclick="closeDrawModal()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl transition-all cursor-pointer">
+                J'ai compris
+            </button>
+        </div>
+    </div>
+
+    <!-- Pied de page -->
+    <footer class="text-center py-4 text-xs font-medium text-slate-400">
+        Basé sur la méthode visuelle de Ryan Estrada • Compatible GitHub Pages
+    </footer>
+
+    <!-- Script Logique & Pédagogie -->
+    <script>
+        // Données d'apprentissage (inspirées de Ryan Estrada : B = Bucket, G = Gun, etc.)
+        const lessons = [
+            { type: "Consonne", char: "ㅂ", sound: "B / P", mnemonic: "Ça ressemble à un seau (Bucket), qui commence par B.", spoken: "ㅂ" },
+            { type: "Consonne", char: "ㅈ", sound: "J", mnemonic: "Ça ressemble à un toit pointu ou une casquette (Jacket), qui commence par J.", spoken: "ㅈ" },
+            { type: "Consonne", char: "ㄷ", sound: "D / T", mnemonic: "Ça ressemble à une porte ouverte ou un tiroir (Door), qui commence par D.", spoken: "ㄷ" },
+            { type: "Consonne", char: "ㄱ", sound: "G / K", mnemonic: "Ça ressemble au canon d'un pistolet (Gun), qui commence par G.", spoken: "ㄱ" },
+            { type: "Voyelle", char: "ㅏ", sound: "A", mnemonic: "Une personne debout avec une jambe de profil (Ah !).", spoken: "ㅏ" },
+            { type: "Voyelle", char: "ㅣ", sound: "I", mnemonic: "Une simple ligne verticale droite comme un bâton (ee).", spoken: "ㅣ" },
+            { type: "Combinaison", char: "바", sound: "BA", mnemonic: "Association de ㅂ (Bucket) et de ㅏ (A) pour faire 'BA'.", spoken: "바" },
+            { type: "Combinaison", char: "지", sound: "JI", mnemonic: "Association de ㅈ (Jacket) et de ㅣ (I) pour faire 'JI'.", spoken: "지" }
+        ];
+
+        let currentIndex = 0;
+        let mode = 'lesson'; // 'lesson' ou 'quiz'
+
+        function startApp() {
+            document.getElementById('welcome-screen').classList.add('hidden');
+            document.getElementById('lesson-screen').classList.remove('hidden');
+            document.querySelector('header').querySelector('#progress-container').classList.remove('hidden');
+            currentIndex = 0;
+            loadStep();
+        }
+
+        function loadStep() {
+            if (currentIndex < lessons.length) {
+                mode = 'lesson';
+                const item = lessons[currentIndex];
+                document.getElementById('lesson-screen').classList.remove('hidden');
+                document.getElementById('quiz-screen').classList.add('hidden');
+                
+                document.getElementById('lesson-badge').innerText = item.type;
+                document.getElementById('char-target').innerText = item.char;
+                document.getElementById('modal-char').innerText = item.char;
+                document.getElementById('char-sound-label').innerText = "Son associé : " + item.sound;
+                document.getElementById('char-mnemonic').innerHTML = item.mnemonic;
+
+                updateProgress();
+                playAudio(); // Lecture automatique optionnelle du son
+            } else {
+                startQuizPhase();
+            }
+        }
+
+        function playAudio() {
+            if ('speechSynthesis' in window) {
+                const item = lessons[currentIndex];
+                const utterance = new SpeechSynthesisUtterance(item.spoken);
+                utterance.lang = 'ko-KR';
+                utterance.rate = 0.8; // Vitesse légèrement ralentie pour l'apprentissage
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function updateProgress() {
+            const total = lessons.length;
+            const progress = ((currentIndex + 1) / total) * 100;
+            document.getElementById('progress-text').innerText = `Étape ${currentIndex + 1} sur ${total}`;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+        }
+
+        function nextStep() {
+            currentIndex++;
+            loadStep();
+        }
+
+        // Mini Quiz de validation intégré à la fin
+        function startQuizPhase() {
+            document.getElementById('lesson-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
+            loadQuizQuestion();
+        }
+
+        let quizItemIndex = 0;
+        function loadQuizQuestion() {
+            if (quizItemIndex >= 4) { // 4 questions de quiz rapides
+                document.getElementById('quiz-screen').classList.add('hidden');
+                document.getElementById('end-screen').classList.remove('hidden');
+                return;
+            }
+            const item = lessons[Math.floor(Math.random() * lessons.length)];
+            document.getElementById('quiz-char').innerText = item.char;
+            document.getElementById('quiz-feedback').innerText = "";
+
+            // Générer des choix
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = "";
+            
+            let choices = [item.sound];
+            while(choices.length < 3) {
+                let randomChoice = lessons[Math.floor(Math.random() * lessons.length)].sound;
+                if(!choices.includes(randomChoice)) choices.push(randomChoice);
+            }
+            choices.sort(() => Math.random() - 0.5);
+
+            choices.forEach(choice => {
+                const btn = document.createElement('button');
+                btn.className = "bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-200 text-slate-700 font-bold py-4 rounded-xl transition-all cursor-pointer";
+                btn.innerText = choice;
+                btn.onclick = () => checkAnswer(choice, item.sound);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            const feedback = document.getElementById('quiz-feedback');
+            if(selected === correct) {
+                feedback.className = "text-sm font-semibold h-6 mb-4 text-emerald-600";
+                feedback.innerText = "Correct ! 🎉";
+                setTimeout(() => {
+                    quizItemIndex++;
+                    loadQuizQuestion();
+                }, 1000);
+            } else {
+                feedback.className = "text-sm font-semibold h-6 mb-4 text-rose-500";
+                feedback.innerText = `Incorrect. C'était ${correct}. Essayez encore !`;
+            }
+        }
+
+        function openDrawModal() {
+            document.getElementById('draw-modal').classList.remove('hidden');
+        }
+
+        function closeDrawModal() {
+            document.getElementById('draw-modal').classList.add('hidden');
+        }
+
+        function restartApp() {
+            document.getElementById('end-screen').classList.add('hidden');
+            document.getElementById('welcome-screen').classList.remove('hidden');
+            document.querySelector('header').querySelector('#progress-container').classList.add('hidden');
+            quizItemIndex = 0;
+        }
+    </script>
+</body>
+</html>
