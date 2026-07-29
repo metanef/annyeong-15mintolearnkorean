@@ -64,3 +64,9 @@ This application is 100% compatible and ready for instant deployment on static h
 
 - Based on the visual method created by **Ryan Estrada** for learning Hangul instantly.
 - Hand-drawn stencils/emojis used for direct association.
+
+---
+
+## 📌 TODO
+
+- [ ] Add a 4th module that tells the story of the Korean language (Hangeul) in 5 slides.
