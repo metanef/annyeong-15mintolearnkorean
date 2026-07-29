@@ -37,14 +37,26 @@ This application is 100% compatible and ready for instant deployment on static h
 
 ---
 
-## 🛠️ Technology Stack
+## 🛠️ Technology Stack & Structure
 
-- **Structure & Layout:** Semantic HTML5
-- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/) (loaded dynamically via CDN for maximum portability)
+- **Structure & Layout:** Semantic HTML5 (`index.html`)
+- **Styling:** [Tailwind CSS v4](https://tailwindcss.com/) (loaded dynamically via CDN for maximum portability) and custom CSS (`css/style.css`)
 - **Typography:** [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans) via Google Fonts
-- **Interactivity & Logic:** Modern Vanilla JavaScript (ES6+)
+- **Interactivity & Logic:** Modern Vanilla JavaScript (ES6+) separated into logic (`js/app.js`) and course data (`js/data.js`)
 - **Canvas Rendering:** Native HTML5 Canvas API for touch-and-mouse drawing practice
 - **Audio synthesis:** Native Web Speech API (`SpeechSynthesis`) configured for Korean locale (`ko-KR`)
+
+### 📁 File Structure
+
+```text
+/
+├── index.html       # Main application structure and UI layout
+├── css/
+│   └── style.css    # Custom animations and fonts
+└── js/
+    ├── app.js       # Core logic (navigation, canvas drawing, speech synthesis, quiz handling)
+    └── data.js      # Constant course data (Jamo lists, exercises, mnemonics)
+```
 
 ---
 

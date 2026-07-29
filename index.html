@@ -7,29 +7,8 @@
     <title>Learn to Read Korean in 15 Minutes</title>
     <!-- Tailwind CSS v4 via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        .fade-in {
-            animation: fadeIn 0.3s ease-in-out forwards;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    </style>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body
@@ -37,14 +16,20 @@
 
     <!-- Header -->
     <header class="w-full bg-white border-b border-slate-100 py-4 px-6 shadow-xs flex justify-between items-center">
-        <div class="flex items-center space-x-3">
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="goHome()">
             <span class="bg-indigo-600 text-white font-extrabold text-sm px-3 py-1.5 rounded-xl shadow-xs">한글</span>
             <h1 class="font-bold text-lg text-slate-900 tracking-tight">Korean in 15 min</h1>
         </div>
-        <div id="progress-container" class="hidden md:flex items-center space-x-2">
-            <span id="progress-text" class="text-xs font-semibold text-slate-500">Step</span>
-            <div class="w-32 bg-slate-100 h-2 rounded-full overflow-hidden">
-                <div id="progress-bar" class="bg-indigo-600 h-full w-0 transition-all duration-300"></div>
+        <div id="nav-controls" class="hidden flex items-center space-x-3">
+            <button onclick="goHome()"
+                class="text-xs font-bold text-slate-500 hover:text-indigo-600 px-3 py-1.5 bg-slate-100 rounded-xl transition-all cursor-pointer">
+                🏠 Home
+            </button>
+            <div id="progress-container" class="hidden md:flex items-center space-x-2">
+                <span id="progress-text" class="text-xs font-semibold text-slate-500">Step</span>
+                <div class="w-24 bg-slate-100 h-2 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="bg-indigo-600 h-full w-0 transition-all duration-300"></div>
+                </div>
             </div>
         </div>
     </header>
@@ -52,86 +37,217 @@
     <!-- Main Content -->
     <main class="flex-1 max-w-2xl w-full mx-auto p-6 flex flex-col justify-center items-center">
 
-        <!-- Interactive Slide / Section Screen -->
-        <div id="intro-screen"
-            class="w-full bg-white rounded-3xl p-8 shadow-xl shadow-indigo-100/50 border border-slate-100 text-center fade-in">
-            <div id="intro-content"></div>
-            <div class="flex justify-between items-center mt-8">
-                <button id="intro-prev-btn" onclick="prevSlide()"
-                    class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 cursor-pointer hidden">
-                    ← Previous
-                </button>
-                <button id="intro-next-btn" onclick="nextSlide()"
-                    class="ml-auto bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-8 rounded-2xl shadow-lg shadow-indigo-200 transition-all transform active:scale-95 cursor-pointer">
-                    Next →
-                </button>
+        <!-- MODE SELECTOR (HOME SCREEN) -->
+        <div id="home-screen" class="w-full text-center fade-in">
+            <div class="mb-8">
+                <span
+                    class="bg-indigo-50 text-indigo-600 font-extrabold text-xs px-3.5 py-1.5 rounded-full uppercase tracking-wider">Welcome</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-3 mb-2">Master Korean Hangul</h2>
+                <p class="text-slate-500 text-sm md:text-base">Choose your path: complete official table learning or
+                    practice with interactive training exercises.</p>
             </div>
-        </div>
 
-        <!-- Lesson Screen -->
-        <div id="lesson-screen" class="w-full hidden flex flex-col items-center">
-            <div id="card-container"
-                class="w-full bg-white rounded-3xl p-8 shadow-xl shadow-slate-100 border border-slate-100 text-center fade-in relative overflow-hidden">
-
-                <div id="lesson-badge"
-                    class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 bg-indigo-50 text-indigo-600">
-                    Consonant
-                </div>
-
-                <!-- Hangul Target with Background Icon -->
-                <div
-                    class="relative w-48 h-48 mx-auto my-4 flex items-center justify-center bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden shadow-inner">
-                    <span id="char-bg-icon" class="absolute text-8xl opacity-25 select-none">🔫</span>
-                    <span id="char-target"
-                        class="relative z-10 text-8xl font-black text-slate-900 tracking-wider">ㄱ</span>
-                </div>
-
-                <div class="text-indigo-600 font-extrabold text-xl mb-6" id="char-sound-label">Sound : G (Gun)</div>
-
-                <div class="bg-indigo-50/50 rounded-2xl p-5 mb-8 border border-indigo-100 text-left">
-                    <div class="flex items-start space-x-4">
-                        <div class="text-3xl">💡</div>
-                        <div>
-                            <h4 class="text-xs font-bold text-indigo-400 uppercase tracking-wider mb-1">Mnemonic</h4>
-                            <p id="char-mnemonic" class="text-slate-700 font-medium text-sm md:text-base">
-                                Looks like a gun.
-                            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Block 1: Learning -->
+                <div onclick="startLearning()"
+                    class="bg-white hover:border-indigo-300 border-2 border-slate-100 hover:shadow-xl hover:shadow-indigo-100/50 rounded-3xl p-6 text-left transition-all cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-12 h-12 bg-indigo-50 group-hover:bg-indigo-600 text-indigo-600 group-hover:text-white rounded-2xl flex items-center justify-center text-xl font-black mb-4 transition-all shadow-inner">
+                            📖
                         </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-1">Learning Course</h3>
+                        <p class="text-slate-500 text-xs leading-relaxed">Step-by-step complete official Jamo table with
+                            native names, pronunciations, and mnemonics.</p>
+                    </div>
+                    <div class="mt-6 flex items-center text-indigo-600 font-bold text-xs">
+                        Start Learning →
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-                    <button onclick="playCurrentAudio()"
-                        class="flex items-center justify-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3.5 px-4 rounded-xl transition-all cursor-pointer">
-                        <span>🔊 Listen Sound</span>
-                    </button>
-                    <button onclick="openDrawModal()"
-                        class="flex items-center justify-center space-x-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold py-3.5 px-4 rounded-xl transition-all cursor-pointer">
-                        <span>✏️ Draw Letter</span>
-                    </button>
+                <!-- Block 2: Training -->
+                <div onclick="startTraining()"
+                    class="bg-white hover:border-amber-300 border-2 border-slate-100 hover:shadow-xl hover:shadow-amber-100/50 rounded-3xl p-6 text-left transition-all cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-12 h-12 bg-amber-50 group-hover:bg-amber-500 text-amber-600 group-hover:text-white rounded-2xl flex items-center justify-center text-xl font-black mb-4 transition-all shadow-inner">
+                            ⚡
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-1">Training & Practice</h3>
+                        <p class="text-slate-500 text-xs leading-relaxed">Pop-culture matching challenges and rules
+                            training based on Ryan Estrada's method.</p>
+                    </div>
+                    <div class="mt-6 flex items-center text-amber-600 font-bold text-xs">
+                        Start Training →
+                    </div>
                 </div>
 
-                <button onclick="nextLessonStep()"
-                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-2xl shadow-lg shadow-indigo-200 transition-all transform active:scale-95 cursor-pointer">
-                    Next Step →
-                </button>
+                <!-- Block 3: Review Table -->
+                <div onclick="startReview()"
+                    class="bg-white hover:border-emerald-300 border-2 border-slate-100 hover:shadow-xl hover:shadow-emerald-100/50 rounded-3xl p-6 text-left transition-all cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-12 h-12 bg-emerald-50 group-hover:bg-emerald-500 text-emerald-600 group-hover:text-white rounded-2xl flex items-center justify-center text-xl font-black mb-4 transition-all shadow-inner">
+                            📋
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-1">Review Table</h3>
+                        <p class="text-slate-500 text-xs leading-relaxed">Complete cheat sheet of all Jamo characters. Click to hear pronunciation or practice drawing.</p>
+                    </div>
+                    <div class="mt-6 flex items-center text-emerald-600 font-bold text-xs">
+                        Open Cheat Sheet →
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- End Screen -->
+        <!-- PART 1: LEARNING APP CONTAINER -->
+        <div id="learning-container" class="w-full hidden flex flex-col items-center">
+            <!-- Interactive Slide / Section Screen -->
+            <div id="intro-screen"
+                class="w-full bg-white rounded-3xl p-8 shadow-xl shadow-indigo-100/50 border border-slate-100 text-center fade-in">
+                <div id="intro-content"></div>
+                <div class="flex justify-between items-center mt-8">
+                    <button id="intro-prev-btn" onclick="prevSlide()"
+                        class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 cursor-pointer hidden">
+                        ← Previous
+                    </button>
+                    <button id="intro-next-btn" onclick="nextSlide()"
+                        class="ml-auto bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-8 rounded-2xl shadow-lg shadow-indigo-200 transition-all transform active:scale-95 cursor-pointer">
+                        Next →
+                    </button>
+                </div>
+            </div>
+
+            <!-- Lesson Screen -->
+            <div id="lesson-screen" class="w-full hidden flex flex-col items-center">
+                <div id="card-container"
+                    class="w-full bg-white rounded-3xl p-8 shadow-xl shadow-slate-100 border border-slate-100 text-center fade-in relative overflow-hidden">
+
+                    <div id="lesson-badge"
+                        class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 bg-indigo-50 text-indigo-600">
+                        Consonant
+                    </div>
+
+                    <div
+                        class="relative w-48 h-48 mx-auto my-4 flex items-center justify-center bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden shadow-inner">
+                        <span id="char-bg-icon" class="absolute text-8xl opacity-25 select-none">🔫</span>
+                        <span id="char-target"
+                            class="relative z-10 text-8xl font-black text-slate-900 tracking-wider">ㄱ</span>
+                    </div>
+
+                    <div class="text-indigo-600 font-extrabold text-xl mb-1" id="char-name-label">Name : gieuk</div>
+                    <div class="text-slate-500 font-medium text-sm mb-6" id="char-sound-label">Pronunciation : g</div>
+
+                    <div class="bg-indigo-50/50 rounded-2xl p-5 mb-8 border border-indigo-100 text-left">
+                        <div class="flex items-start space-x-4">
+                            <div class="text-3xl">💡</div>
+                            <div>
+                                <h4 class="text-xs font-bold text-indigo-400 uppercase tracking-wider mb-1">Details &
+                                    Mnemonic</h4>
+                                <p id="char-mnemonic" class="text-slate-700 font-medium text-sm md:text-base">
+                                    Looks like a gun.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                        <button onclick="playCurrentAudio()"
+                            class="flex items-center justify-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3.5 px-4 rounded-xl transition-all cursor-pointer">
+                            <span>🔊 Listen Sound</span>
+                        </button>
+                        <button onclick="openDrawModal()"
+                            class="flex items-center justify-center space-x-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold py-3.5 px-4 rounded-xl transition-all cursor-pointer">
+                            <span>✏️ Draw Letter</span>
+                        </button>
+                    </div>
+
+                    <button onclick="nextLessonStep()"
+                        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-2xl shadow-lg shadow-indigo-200 transition-all transform active:scale-95 cursor-pointer">
+                        Next Step →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PART 2: TRAINING CONTAINER -->
+        <div id="training-container" class="w-full hidden flex flex-col items-center">
+            <div
+                class="w-full bg-white rounded-3xl p-8 shadow-xl shadow-amber-100/50 border border-slate-100 text-center fade-in">
+
+                <span
+                    class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 bg-amber-50 text-amber-600">
+                    Training Mode ⚡ Pop-Culture & Rules
+                </span>
+
+                <div id="training-content"></div>
+                <div id="training-feedback" class="text-sm font-semibold h-6 my-3"></div>
+
+                <div class="flex justify-between items-center mt-6">
+                    <button onclick="goHome()"
+                        class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 cursor-pointer text-xs">
+                        ← Exit Training
+                    </button>
+                    <button id="training-next-btn" onclick="nextTrainingStep()"
+                        class="ml-auto bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-xl shadow-md transition-all cursor-pointer text-xs hidden">
+                        Next Challenge →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PART 3: REVIEW TABLE CONTAINER -->
+        <div id="review-container" class="w-full hidden flex flex-col items-center">
+            <div class="w-full bg-white rounded-3xl p-6 shadow-xl shadow-emerald-100/50 border border-slate-100 fade-in">
+                
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+                    <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-50 text-emerald-600">
+                        📋 Complete Cheat Sheet
+                    </span>
+                    
+                    <!-- Self Evaluation Toggle -->
+                    <label class="flex items-center cursor-pointer">
+                        <div class="relative">
+                            <input type="checkbox" id="eval-toggle" class="sr-only" onchange="toggleEvalMode()">
+                            <div class="block bg-slate-200 w-10 h-6 rounded-full transition-colors" id="eval-toggle-bg"></div>
+                            <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform" id="eval-toggle-dot"></div>
+                        </div>
+                        <div class="ml-3 text-slate-700 font-semibold text-sm">Self-Evaluation Mode (Blur)</div>
+                    </label>
+                </div>
+
+                <div class="text-xs text-slate-500 mb-4 text-center">
+                    💡 <strong>Tip:</strong> Click the <span class="text-indigo-500">🔊 icon</span> to hear the sound, or click the <strong>Korean character</strong> to practice drawing it.
+                </div>
+
+                <div class="overflow-x-auto rounded-xl border border-slate-200">
+                    <table class="w-full text-left border-collapse" id="review-table">
+                        <!-- Table content generated dynamically via JS -->
+                    </table>
+                </div>
+                
+                <div class="mt-6 text-center">
+                    <button onclick="goHome()" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 cursor-pointer text-sm">
+                        ← Exit Review
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- END SCREEN -->
         <div id="end-screen"
             class="w-full hidden bg-white rounded-3xl p-8 shadow-xl shadow-indigo-100/50 border border-slate-100 text-center fade-in">
             <div
                 class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black mb-6 shadow-inner">
                 🎉
             </div>
-            <h2 class="text-2xl font-extrabold text-slate-900 mb-3">Congratulations!</h2>
-            <p class="text-slate-500 text-sm md:text-base mb-8">
-                You have completed all sections successfully!
+            <h2 id="end-title" class="text-2xl font-extrabold text-slate-900 mb-3">Congratulations!</h2>
+            <p id="end-desc" class="text-slate-500 text-sm md:text-base mb-8">
+                You have successfully completed this section!
             </p>
-            <button onclick="restartApp()"
+            <button onclick="goHome()"
                 class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-8 rounded-2xl shadow-lg shadow-indigo-200 transition-all transform active:scale-95 cursor-pointer">
-                Restart Course
+                Back to Home Menu
             </button>
         </div>
 
@@ -167,277 +283,12 @@
 
     <!-- Footer -->
     <footer class="text-center py-4 text-xs font-medium text-slate-400">
-        Based on Ryan Estrada's visual method • GitHub Pages Ready
+        Based on official Korean Jamo table & Ryan Estrada's method • GitHub Pages Ready
     </footer>
 
-    <script>
-        // Ordered flow: Main Intro -> Lettre de base -> Consonants -> Vowels -> Lettre complexe -> Double Consonants -> Compound Vowels
-        const flowSteps = [
-            // 1. Initial Intro Slide
-            { type: 'slide', title: "Learn to Read Korean in 15 Minutes", emoji: "🇰🇷", text: "Hey! I know Korean looks super hard to read, but it's actually an ultra logical alphabet created by a king." },
-
-            // 2. Lettre de base Category Slide
-            { type: 'slide', title: "Lettre de base", emoji: "🧱", text: "Let's start with the fundamental building blocks: basic consonants and basic vowels." },
-
-            // 3. Consonants Slide
-            { type: 'slide', title: "Part 1: Basic Consonants", emoji: "📝", text: "Let's learn the 14 basic consonants using visual mnemonics!" },
-
-            // 14 Basic Consonants Batch
-            {
-                type: 'lesson', group: 'basic_consonants', items: [
-                    { type: "Basic Consonant", char: "ㄱ", sound: "G / K", icon: "🔫", mnemonic: "Looks like a gun.", spoken: "ㄱ" },
-                    { type: "Basic Consonant", char: "ㄴ", sound: "N", icon: "👃", mnemonic: "Looks like a nose.", spoken: "ㄴ" },
-                    { type: "Basic Consonant", char: "ㄷ", sound: "D / T", icon: "🚪", mnemonic: "Looks like a door.", spoken: "ㄷ" },
-                    { type: "Basic Consonant", char: "ㄹ", sound: "R / L", icon: "🐍", mnemonic: "Looks like a rattlesnake.", spoken: "ㄹ" },
-                    { type: "Basic Consonant", char: "ㅁ", sound: "M", icon: "🗺️", mnemonic: "Looks like a map.", spoken: "ㅁ" },
-                    { type: "Basic Consonant", char: "ㅂ", sound: "B / P", icon: "🪣", mnemonic: "Looks like a bucket.", spoken: "ㅂ" },
-                    { type: "Basic Consonant", char: "ㅅ", sound: "S / T", icon: "⛰️", mnemonic: "Looks like a summit.", spoken: "ㅅ" },
-                    { type: "Basic Consonant", char: "ㅇ", sound: "NG / Silent", icon: "⭕", mnemonic: "Acts as a placeholder or NG sound.", spoken: "ㅇ" },
-                    { type: "Basic Consonant", char: "ㅈ", sound: "J", icon: "👖", mnemonic: "Looks like jeans.", spoken: "ㅈ" },
-                    { type: "Basic Consonant", char: "ㅊ", sound: "Ch", icon: "🐓", mnemonic: "Looks like a chicken.", spoken: "ㅊ" },
-                    { type: "Basic Consonant", char: "ㅋ", sound: "K", icon: "🔫", mnemonic: "Gun with an extra notch.", spoken: "ㅋ" },
-                    { type: "Basic Consonant", char: "ㅌ", sound: "T", icon: "🚪", mnemonic: "Two doors / extra notch.", spoken: "ㅌ" },
-                    { type: "Basic Consonant", char: "ㅍ", sound: "P", icon: "🏛️", mnemonic: "Pillar.", spoken: "ㅍ" },
-                    { type: "Basic Consonant", char: "ㅎ", sound: "H", icon: "👒", mnemonic: "Looks like a hat.", spoken: "ㅎ" }
-                ]
-            },
-
-            // 4. Vowels Slide
-            { type: 'slide', title: "Part 2: Basic Vowels", emoji: "✨", text: "Next, let's learn the 10 basic vowels representing trees, brooks, and flat earth!" },
-
-            // 10 Basic Vowels Batch
-            {
-                type: 'lesson', group: 'basic_vowels', items: [
-                    { type: "Basic Vowel", char: "ㅏ", sound: "A", icon: "🌲", mnemonic: "Tree (Ah!).", spoken: "ㅏ" },
-                    { type: "Basic Vowel", char: "ㅑ", sound: "YA", icon: "🌲🌲", mnemonic: "Double tree (Ya!).", spoken: "ㅑ" },
-                    { type: "Basic Vowel", char: "ㅓ", sound: "EO", icon: "🌲", mnemonic: "Tree turned left.", spoken: "ㅓ" },
-                    { type: "Basic Vowel", char: "ㅕ", sound: "YEO", icon: "🌲🌲", mnemonic: "Double tree turned left.", spoken: "ㅕ" },
-                    { type: "Basic Vowel", char: "ㅗ", sound: "O", icon: "🌊", mnemonic: "Brook over.", spoken: "ㅗ" },
-                    { type: "Basic Vowel", char: "ㅛ", sound: "YO", icon: "🌊🌊", mnemonic: "Double brook over.", spoken: "ㅛ" },
-                    { type: "Basic Vowel", char: "ㅜ", sound: "U", icon: "🌊", mnemonic: "Brook under.", spoken: "ㅜ" },
-                    { type: "Basic Vowel", char: "ㅠ", sound: "YU", icon: "🌊🌊", mnemonic: "Double brook under.", spoken: "ㅠ" },
-                    { type: "Basic Vowel", char: "ㅡ", sound: "EU", icon: "🌊", mnemonic: "Brook flat.", spoken: "ㅡ" },
-                    { type: "Basic Vowel", char: "ㅣ", sound: "I", icon: "🌲", mnemonic: "Tree straight.", spoken: "ㅣ" }
-                ]
-            },
-
-            // 5. Lettre complexe Category Slide
-            { type: 'slide', title: "Lettre complexe", emoji: "⚡", text: "Now let's move on to advanced characters: double consonants and compound vowels!" },
-
-            // 6. Double Consonants Slide
-            { type: 'slide', title: "Part 3: Double Consonants", emoji: "⚡", text: "Let's kick it up a notch with the 5 double consonants (stressed sounds)!" },
-
-            // 5 Double Consonants Batch
-            {
-                type: 'lesson', group: 'double_consonants', items: [
-                    { type: "Double Consonant", char: "ㄲ", sound: "KK", icon: "🔫🔫", mnemonic: "Double gun (stressed sound).", spoken: "ㄲ" },
-                    { type: "Double Consonant", char: "ㄸ", sound: "TT", icon: "🚪🚪", mnemonic: "Double door (stressed sound).", spoken: "ㄸ" },
-                    { type: "Double Consonant", char: "ㅃ", sound: "BB", icon: "🪣🪣", mnemonic: "Double bucket (stressed sound).", spoken: "ㅃ" },
-                    { type: "Double Consonant", char: "ㅆ", sound: "SS", icon: "⛰️⛰️", mnemonic: "Double summit (stressed sound).", spoken: "ㅆ" },
-                    { type: "Double Consonant", char: "ㅉ", sound: "JJ", icon: "👖👖", mnemonic: "Double jeans (stressed sound).", spoken: "ㅉ" }
-                ]
-            },
-
-            // 7. Compound Vowels Slide
-            { type: 'slide', title: "Part 4: Compound Vowels", emoji: "🔀", text: "Finally, let's explore the 11 compound vowels by blending sounds together!" },
-
-            // 11 Compound Vowels Batch
-            {
-                type: 'lesson', group: 'compound_vowels', items: [
-                    { type: "Compound Vowel", char: "ㅐ", sound: "AE", icon: "🔤", mnemonic: "Combined vowel sound.", spoken: "ㅐ" },
-                    { type: "Compound Vowel", char: "ㅒ", sound: "YAE", icon: "🔤", mnemonic: "Combined vowel sound.", spoken: "ㅒ" },
-                    { type: "Compound Vowel", char: "ㅔ", sound: "E", icon: "🔤", mnemonic: "Combined vowel sound.", spoken: "ㅔ" },
-                    { type: "Compound Vowel", char: "ㅖ", sound: "YE", icon: "🔤", mnemonic: "Combined vowel sound.", spoken: "ㅖ" },
-                    { type: "Compound Vowel", char: "ᅪ", sound: "WA", icon: "🌊🌲", mnemonic: "Brook + Tree = WA.", spoken: "ᅪ" },
-                    { type: "Compound Vowel", char: "ᅫ", sound: "WAE", icon: "🌊🔤", mnemonic: "Compound wet sound.", spoken: "ᅫ" },
-                    { type: "Compound Vowel", char: "외", sound: "OE", icon: "🌊🌲", mnemonic: "Compound wet sound.", spoken: "외" },
-                    { type: "Compound Vowel", char: "ᅯ", sound: "WEO", icon: "🌊🌲", mnemonic: "Compound wonder sound.", spoken: "ᅯ" },
-                    { type: "Compound Vowel", char: "웨", sound: "WE", icon: "🌊🔤", mnemonic: "Compound we sound.", spoken: "웨" },
-                    { type: "Compound Vowel", char: "위", sound: "WI", icon: "🌊🌲", mnemonic: "Compound wi sound.", spoken: "위" },
-                    { type: "Compound Vowel", char: "ㅢ", sound: "UI", icon: "🌊🌲", mnemonic: "Brook + Tree = UI.", spoken: "ㅢ" }
-                ]
-            }
-        ];
-
-        let currentFlowIndex = 0;
-        let currentLessonList = [];
-        let currentLessonSubIndex = 0;
-
-        function renderCurrentStep() {
-            const step = flowSteps[currentFlowIndex];
-
-            if (step.type === 'slide') {
-                document.getElementById('intro-screen').classList.remove('hidden');
-                document.getElementById('lesson-screen').classList.add('hidden');
-                document.getElementById('end-screen').classList.add('hidden');
-                document.getElementById('progress-container').classList.add('hidden');
-
-                document.getElementById('intro-content').innerHTML = `
-                    <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl mx-auto flex items-center justify-center text-3xl font-black mb-6">
-                        ${step.emoji}
-                    </div>
-                    <h2 class="text-2xl font-extrabold text-slate-900 mb-3">${step.title}</h2>
-                    <p class="text-slate-500 text-sm md:text-base leading-relaxed">${step.text}</p>
-                `;
-
-                document.getElementById('intro-prev-btn').classList.toggle('hidden', currentFlowIndex === 0);
-                document.getElementById('intro-next-btn').innerText = "Start Section →";
-
-            } else if (step.type === 'lesson') {
-                document.getElementById('intro-screen').classList.add('hidden');
-                document.getElementById('lesson-screen').classList.remove('hidden');
-                document.getElementById('progress-container').classList.remove('hidden');
-
-                currentLessonList = step.items;
-                currentLessonSubIndex = 0;
-                loadLessonItem();
-            }
-        }
-
-        function loadLessonItem() {
-            if (currentLessonSubIndex < currentLessonList.length) {
-                const item = currentLessonList[currentLessonSubIndex];
-                document.getElementById('lesson-badge').innerText = item.type;
-                document.getElementById('char-target').innerText = item.char;
-                document.getElementById('canvas-guide-char').innerText = item.char;
-                document.getElementById('char-bg-icon').innerText = item.icon;
-                document.getElementById('char-sound-label').innerText = "Sound : " + item.sound;
-                document.getElementById('char-mnemonic').innerHTML = item.mnemonic;
-
-                updateProgressGlobal();
-                playCurrentAudioItem(item);
-            } else {
-                currentFlowIndex++;
-                if (currentFlowIndex < flowSteps.length) {
-                    renderCurrentStep();
-                } else {
-                    showEndScreen();
-                }
-            }
-        }
-
-        function nextSlide() {
-            if (currentFlowIndex < flowSteps.length - 1) {
-                currentFlowIndex++;
-                renderCurrentStep();
-            } else {
-                showEndScreen();
-            }
-        }
-
-        function prevSlide() {
-            if (currentFlowIndex > 0) {
-                currentFlowIndex--;
-                renderCurrentStep();
-            }
-        }
-
-        function nextLessonStep() {
-            currentLessonSubIndex++;
-            loadLessonItem();
-        }
-
-        function updateProgressGlobal() {
-            const progress = ((currentFlowIndex + 1) / flowSteps.length) * 100;
-            document.getElementById('progress-text').innerText = `Step ${currentFlowIndex + 1} / ${flowSteps.length}`;
-            document.getElementById('progress-bar').style.width = `${progress}%`;
-        }
-
-        function playCurrentAudio() {
-            if (currentLessonList[currentLessonSubIndex]) {
-                playCurrentAudioItem(currentLessonList[currentLessonSubIndex]);
-            }
-        }
-
-        function playCurrentAudioItem(item) {
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(item.spoken);
-                utterance.lang = 'ko-KR';
-                utterance.rate = 0.7;
-
-                const voices = window.speechSynthesis.getVoices();
-                const koreanVoice = voices.find(v => v.lang.includes('ko'));
-                if (koreanVoice) utterance.voice = koreanVoice;
-
-                window.speechSynthesis.speak(utterance);
-            }
-        }
-
-        const canvas = document.getElementById('paint-canvas');
-        const ctx = canvas.getContext('2d');
-        let painting = false;
-
-        function startPosition(e) {
-            painting = true;
-            draw(e);
-        }
-
-        function finishedPosition() {
-            painting = false;
-            ctx.beginPath();
-        }
-
-        function draw(e) {
-            if (!painting) return;
-            e.preventDefault();
-
-            const rect = canvas.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-
-            const x = clientX - rect.left;
-            const y = clientY - rect.top;
-
-            ctx.lineWidth = 12;
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = '#4f46e5';
-
-            ctx.lineTo(x, y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-        }
-
-        canvas.addEventListener('mousedown', startPosition);
-        canvas.addEventListener('mouseup', finishedPosition);
-        canvas.addEventListener('mousemove', draw);
-        canvas.addEventListener('touchstart', startPosition);
-        canvas.addEventListener('touchend', finishedPosition);
-        canvas.addEventListener('touchmove', draw);
-
-        function clearCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-
-        function openDrawModal() {
-            clearCanvas();
-            document.getElementById('draw-modal').classList.remove('hidden');
-        }
-
-        function closeDrawModal() {
-            document.getElementById('draw-modal').classList.add('hidden');
-        }
-
-        function showEndScreen() {
-            document.getElementById('intro-screen').classList.add('hidden');
-            document.getElementById('lesson-screen').classList.add('hidden');
-            document.getElementById('end-screen').classList.remove('hidden');
-            document.getElementById('progress-container').classList.add('hidden');
-        }
-
-        function restartApp() {
-            currentFlowIndex = 0;
-            document.getElementById('end-screen').classList.add('hidden');
-            renderCurrentStep();
-        }
-
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
-        }
-
-        renderCurrentStep();
-    </script>
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
 </body>
 
 </html>
