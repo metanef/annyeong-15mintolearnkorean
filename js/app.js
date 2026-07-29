@@ -78,6 +78,7 @@ function loadLessonItem() {
     if (currentLessonSubIndex < currentLessonList.length) {
         const item = currentLessonList[currentLessonSubIndex];
         document.getElementById('lesson-badge').innerText = item.type;
+        document.getElementById('lesson-count-badge').innerText = `${currentLessonSubIndex + 1} / ${currentLessonList.length}`;
         document.getElementById('char-target').innerText = item.char;
         document.getElementById('canvas-guide-char').innerText = item.char;
         document.getElementById('char-bg-icon').innerText = item.icon;
