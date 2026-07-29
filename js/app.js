@@ -4,6 +4,7 @@ function goHome() {
     document.getElementById('learning-container').classList.add('hidden');
     document.getElementById('training-container').classList.add('hidden');
     document.getElementById('review-container').classList.add('hidden');
+    document.getElementById('history-container').classList.add('hidden');
     document.getElementById('end-screen').classList.add('hidden');
     document.getElementById('nav-controls').classList.add('hidden');
 }
@@ -320,6 +321,69 @@ function checkTrainingAnswer(selected, ex, btnElem) {
 function nextTrainingStep() {
     currentTrainingIndex++;
     loadTrainingStep();
+}
+
+// --- HISTORY MODULE (MODULE 4) ---
+let currentHistoryIndex = 0;
+
+function startHistory() {
+    document.getElementById('home-screen').classList.add('hidden');
+    document.getElementById('history-container').classList.remove('hidden');
+    document.getElementById('nav-controls').classList.remove('hidden');
+    document.getElementById('progress-container').classList.add('hidden');
+    
+    currentHistoryIndex = 0;
+    renderHistoryStep();
+}
+
+function renderHistoryStep() {
+    const step = historySteps[currentHistoryIndex];
+    document.getElementById('history-counter').innerText = currentHistoryIndex + 1;
+    document.getElementById('history-total').innerText = historySteps.length;
+
+    const content = document.getElementById('history-content');
+    content.innerHTML = `
+        <div class="text-7xl mb-6 mt-4 drop-shadow-md transform transition-transform hover:scale-110">${step.emoji}</div>
+        <h2 class="text-2xl font-black text-slate-800 mb-6">${step.title}</h2>
+        <div class="bg-purple-50/50 rounded-2xl p-6 border border-purple-100 text-left mx-auto max-w-lg shadow-inner">
+            <p class="text-slate-700 font-medium text-base leading-relaxed">
+                ${step.content}
+            </p>
+        </div>
+    `;
+
+    // Manage buttons
+    const prevBtn = document.getElementById('history-prev-btn');
+    const nextBtn = document.getElementById('history-next-btn');
+    const endBtn = document.getElementById('history-end-btn');
+
+    if (currentHistoryIndex === 0) {
+        prevBtn.classList.add('hidden');
+    } else {
+        prevBtn.classList.remove('hidden');
+    }
+
+    if (currentHistoryIndex === historySteps.length - 1) {
+        nextBtn.classList.add('hidden');
+        endBtn.classList.remove('hidden');
+    } else {
+        nextBtn.classList.remove('hidden');
+        endBtn.classList.add('hidden');
+    }
+}
+
+function nextHistoryStep() {
+    if (currentHistoryIndex < historySteps.length - 1) {
+        currentHistoryIndex++;
+        renderHistoryStep();
+    }
+}
+
+function prevHistoryStep() {
+    if (currentHistoryIndex > 0) {
+        currentHistoryIndex--;
+        renderHistoryStep();
+    }
 }
 
 // --- DRAWING CANVAS UTILITIES ---

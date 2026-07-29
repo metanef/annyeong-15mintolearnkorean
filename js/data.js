@@ -195,3 +195,34 @@ const trainingExercises = [
         answer: "아바타"
     }
 ];
+
+// ==========================================
+// HISTORY SLIDES (MODULE 4)
+// ==========================================
+const historySteps = [
+    {
+        title: "The Creator: King Sejong the Great",
+        emoji: "👑",
+        content: "Before Hangul, Koreans used Classical Chinese characters (Hanja) to write. This system was so complex that only the wealthy and educated elite could afford the time to learn it. In 1443, King Sejong the Great decided his people deserved an alphabet of their own.",
+    },
+    {
+        title: "The Problem with Chinese Characters",
+        emoji: "🤔",
+        content: "Chinese characters represent meaning rather than sound, meaning thousands of characters had to be memorized just to read basic texts. King Sejong wanted a phonetic alphabet that a wise man could learn before morning, and a stupid man could learn in ten days.",
+    },
+    {
+        title: "A Scientific Design: Consonants",
+        emoji: "👄",
+        content: "Hangul is uniquely scientific. The basic consonants (ㄱ, ㄴ, ㅁ, ㅅ, ㅇ) are actually visual diagrams of the human mouth, tongue, and throat when pronouncing those sounds! For example, 'ㄱ' (g/k) shows the tongue blocking the back of the throat.",
+    },
+    {
+        title: "A Philosophical Design: Vowels",
+        emoji: "🌌",
+        content: "The vowels were designed using Neo-Confucian philosophy. They are formed from three basic elements: a dot (•) representing Heaven/Sun, a horizontal line (ㅡ) representing the flat Earth, and a vertical line (ㅣ) representing a standing Human. Everything is connected!",
+    },
+    {
+        title: "The Legacy of Hangul",
+        emoji: "🎉",
+        content: "Today, Hangul is celebrated as one of the most logical writing systems in the world. It completely eliminated illiteracy in Korea. There is even a national holiday, 'Hangul Day' (October 9th in South Korea), dedicated to celebrating the creation of the alphabet!"
+    }
+];

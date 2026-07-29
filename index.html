@@ -47,7 +47,7 @@
                     practice with interactive training exercises.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <!-- Block 1: Learning -->
                 <div onclick="startLearning()"
                     class="bg-white hover:border-indigo-300 border-2 border-slate-100 hover:shadow-xl hover:shadow-indigo-100/50 rounded-3xl p-6 text-left transition-all cursor-pointer group flex flex-col justify-between">
@@ -96,6 +96,23 @@
                     </div>
                     <div class="mt-6 flex items-center text-emerald-600 font-bold text-xs">
                         Open Cheat Sheet →
+                    </div>
+                </div>
+                </div>
+
+                <!-- Block 4: History of Hangul -->
+                <div onclick="startHistory()"
+                    class="bg-white hover:border-purple-300 border-2 border-slate-100 hover:shadow-xl hover:shadow-purple-100/50 rounded-3xl p-6 text-left transition-all cursor-pointer group flex flex-col justify-between">
+                    <div>
+                        <div
+                            class="w-12 h-12 bg-purple-50 group-hover:bg-purple-500 text-purple-600 group-hover:text-white rounded-2xl flex items-center justify-center text-xl font-black mb-4 transition-all shadow-inner">
+                            📜
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 mb-1">History</h3>
+                        <p class="text-slate-500 text-xs leading-relaxed">Discover the fascinating story behind the invention of the Korean alphabet.</p>
+                    </div>
+                    <div class="mt-6 flex items-center text-purple-600 font-bold text-xs">
+                        Read Story →
                     </div>
                 </div>
             </div>
@@ -200,6 +217,35 @@
             </div>
         </div>
 
+        <!-- PART 4: HISTORY CONTAINER -->
+        <div id="history-container" class="w-full hidden flex flex-col items-center">
+            <div id="history-screen"
+                class="w-full bg-white rounded-3xl p-8 shadow-xl shadow-purple-100/50 border border-slate-100 text-center fade-in relative overflow-hidden">
+                
+                <span
+                    class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 bg-purple-50 text-purple-600">
+                    Slide <span id="history-counter">1</span> of <span id="history-total">5</span>
+                </span>
+
+                <div id="history-content"></div>
+                
+                <div class="flex justify-between items-center mt-8 relative z-10">
+                    <button id="history-prev-btn" onclick="prevHistoryStep()"
+                        class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 cursor-pointer hidden">
+                        ← Previous
+                    </button>
+                    <button id="history-next-btn" onclick="nextHistoryStep()"
+                        class="ml-auto bg-purple-600 hover:bg-purple-700 text-white font-bold py-3.5 px-8 rounded-2xl shadow-lg shadow-purple-200 transition-all transform active:scale-95 cursor-pointer">
+                        Next →
+                    </button>
+                    <button id="history-end-btn" onclick="goHome()"
+                        class="ml-auto bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 px-8 rounded-2xl shadow-lg transition-all transform active:scale-95 cursor-pointer hidden">
+                        Back to Home
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- PART 3: REVIEW TABLE CONTAINER -->
         <div id="review-container" class="w-full hidden flex flex-col items-center">
             <div
@@ -293,7 +339,7 @@
 
     <!-- Footer -->
     <footer class="text-center py-4 text-xs font-medium text-slate-400">
-        Based on official Korean Jamo table & Ryan Estrada's method • Designed by ©nef <span id="current-year"></span>
+        Based on official Korean Jamo table & Ryan Estrada's method • Designed by ©nef - <span id="current-year"></span>
     </footer>
 
     <!-- Scripts -->

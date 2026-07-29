@@ -1,5 +1,10 @@
 # Learn to Read Korean in 15 Minutes 🇰🇷
 
+![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+
 An interactive, visual single-page web application designed to teach the fundamentals of reading Hangul (the Korean alphabet) in under 15 minutes. 
 
 This project is built using a highly effective, visual mnemonic-based approach inspired by Ryan Estrada's famous comic guide.
@@ -69,4 +74,10 @@ This application is 100% compatible and ready for instant deployment on static h
 
 ## 📌 TODO
 
+### ✅ Done (Validated)
+- [x] Modular Architecture (HTML/CSS/JS)
+- [x] Interactive Review Table (Auto-evaluation, Audio, Drawing)
+- [x] "Pop-Culture" Training Mode (Ryan Estrada method)
+
+### ⏳ To Do
 - [ ] Add a 4th module that tells the story of the Korean language (Hangeul) in 5 slides.
