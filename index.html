@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="fr" class="h-full">
+<html lang="en" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apprendre le coréen en 15 minutes</title>
+    <title>Learn to Read Korean in 15 Minutes</title>
+    <!-- Tailwind CSS v4 via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
@@ -17,10 +18,11 @@
 </head>
 <body class="h-full bg-slate-50 text-slate-800 flex flex-col justify-between selection:bg-indigo-500 selection:text-white">
 
+    <!-- Header -->
     <header class="w-full bg-white border-b border-slate-100 py-4 px-6 shadow-xs flex justify-between items-center">
         <div class="flex items-center space-x-3">
             <span class="bg-indigo-600 text-white font-extrabold text-sm px-3 py-1.5 rounded-xl shadow-xs">한글</span>
-            <h1 class="font-bold text-lg text-slate-900 tracking-tight">Coréen en 15 min</h1>
+            <h1 class="font-bold text-lg text-slate-900 tracking-tight">Korean in 15 min</h1>
         </div>
         <div id="progress-container" class="hidden md:flex items-center space-x-2">
             <span id="progress-text" class="text-xs font-semibold text-slate-500">Intro</span>
@@ -30,42 +32,45 @@
         </div>
     </header>
 
+    <!-- Main Content -->
     <main class="flex-1 max-w-2xl w-full mx-auto p-6 flex flex-col justify-center items-center">
         
+        <!-- Intro Slides -->
         <div id="intro-screen" class="w-full bg-white rounded-3xl p-8 shadow-xl shadow-indigo-100/50 border border-slate-100 text-center fade-in">
-            <div id="intro-content">
-                </div>
+            <div id="intro-content"></div>
             <div class="flex justify-between items-center mt-8">
                 <button id="intro-prev-btn" onclick="prevIntroSlide()" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 cursor-pointer hidden">
-                    ← Précédent
+                    ← Previous
                 </button>
                 <button id="intro-next-btn" onclick="nextIntroSlide()" class="ml-auto bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-8 rounded-2xl shadow-lg shadow-indigo-200 transition-all transform active:scale-95 cursor-pointer">
-                    Suivant →
+                    Next →
                 </button>
             </div>
         </div>
 
+        <!-- Lesson Screen -->
         <div id="lesson-screen" class="w-full hidden flex flex-col items-center">
             <div id="card-container" class="w-full bg-white rounded-3xl p-8 shadow-xl shadow-slate-100 border border-slate-100 text-center fade-in relative overflow-hidden">
                 
                 <div id="lesson-badge" class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 bg-indigo-50 text-indigo-600">
-                    Consonne
+                    Consonant
                 </div>
 
+                <!-- Hangul Target with Background Icon -->
                 <div class="relative w-48 h-48 mx-auto my-4 flex items-center justify-center bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden shadow-inner">
-                    <span id="char-bg-icon" class="absolute text-8xl opacity-15 select-none">🔫</span>
+                    <span id="char-bg-icon" class="absolute text-8xl opacity-25 select-none">🔫</span>
                     <span id="char-target" class="relative z-10 text-8xl font-black text-slate-900 tracking-wider">ㄱ</span>
                 </div>
 
-                <div class="text-indigo-600 font-extrabold text-xl mb-6" id="char-sound-label">Son : G (Gun)</div>
+                <div class="text-indigo-600 font-extrabold text-xl mb-6" id="char-sound-label">Sound : G (Gun)</div>
 
                 <div class="bg-indigo-50/50 rounded-2xl p-5 mb-8 border border-indigo-100 text-left">
                     <div class="flex items-start space-x-4">
                         <div class="text-3xl">💡</div>
                         <div>
-                            <h4 class="text-xs font-bold text-indigo-400 uppercase tracking-wider mb-1">Mnémotechnique</h4>
+                            <h4 class="text-xs font-bold text-indigo-400 uppercase tracking-wider mb-1">Mnemonic</h4>
                             <p id="char-mnemonic" class="text-slate-700 font-medium text-sm md:text-base">
-                                Ressemble à un pistolet (<span class="font-bold text-indigo-600">Gun</span>).
+                                Looks like a gun.
                             </p>
                         </div>
                     </div>
@@ -73,25 +78,26 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
                     <button onclick="playCurrentAudio()" class="flex items-center justify-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3.5 px-4 rounded-xl transition-all cursor-pointer">
-                        <span>🔊 Écouter le son</span>
+                        <span>🔊 Listen Sound</span>
                     </button>
                     <button onclick="openDrawModal()" class="flex items-center justify-center space-x-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold py-3.5 px-4 rounded-xl transition-all cursor-pointer">
-                        <span>✏️ Dessiner la lettre</span>
+                        <span>✏️ Draw Letter</span>
                     </button>
                 </div>
 
                 <button onclick="nextLessonStep()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-2xl shadow-lg shadow-indigo-200 transition-all transform active:scale-95 cursor-pointer">
-                    Étape suivante →
+                    Next Step →
                 </button>
             </div>
         </div>
 
+        <!-- Quiz Screen -->
         <div id="quiz-screen" class="w-full hidden flex flex-col items-center">
             <div class="w-full bg-white rounded-3xl p-8 shadow-xl shadow-slate-100 border border-slate-100 text-center fade-in">
                 <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4 bg-amber-50 text-amber-600">
-                    Quiz Rapide ⚡
+                    Quick Quiz ⚡
                 </span>
-                <h3 class="text-xl font-bold text-slate-900 mb-2">Trouvez le bon son !</h3>
+                <h3 class="text-xl font-bold text-slate-900 mb-2">Find the correct sound!</h3>
                 
                 <div class="my-6">
                     <span id="quiz-char" class="text-7xl font-black text-slate-900">ㄱ</span>
@@ -102,25 +108,27 @@
             </div>
         </div>
 
+        <!-- End Screen -->
         <div id="end-screen" class="w-full hidden bg-white rounded-3xl p-8 shadow-xl shadow-indigo-100/50 border border-slate-100 text-center fade-in">
             <div class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl mx-auto flex items-center justify-center text-2xl font-black mb-6 shadow-inner">
                 🎉
             </div>
-            <h2 class="text-2xl font-extrabold text-slate-900 mb-3">Félicitations !</h2>
+            <h2 class="text-2xl font-extrabold text-slate-900 mb-3">Congratulations!</h2>
             <p class="text-slate-500 text-sm md:text-base mb-8">
-                Vous maîtrisez les bases de l'alphabet coréen ! Vous pouvez maintenant déchiffrer vos premiers mots.
+                You have completed all the core letters and syllable blocks! You can now start reading Korean words.
             </p>
             <button onclick="restartApp()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-8 rounded-2xl shadow-lg shadow-indigo-200 transition-all transform active:scale-95 cursor-pointer">
-                Recommencer le cours
+                Restart Course
             </button>
         </div>
 
     </main>
 
+    <!-- Drawing Modal -->
     <div id="draw-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-100 text-center fade-in">
-            <h3 class="font-bold text-lg text-slate-900 mb-1">Entraînez-vous à tracer</h3>
-            <p class="text-xs text-slate-500 mb-4">Dessinez directement dans le cadre à la souris ou au doigt.</p>
+            <h3 class="font-bold text-lg text-slate-900 mb-1">Practice Drawing</h3>
+            <p class="text-xs text-slate-500 mb-4">Draw inside the box using your mouse or finger.</p>
             
             <div class="relative w-64 h-64 mx-auto mb-4 border-2 border-indigo-200 rounded-2xl overflow-hidden bg-slate-50">
                 <span id="canvas-guide-char" class="absolute inset-0 flex items-center justify-center text-9xl font-black text-slate-200 select-none pointer-events-none">ㄱ</span>
@@ -129,58 +137,85 @@
 
             <div class="flex space-x-2">
                 <button onclick="clearCanvas()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 rounded-xl transition-all cursor-pointer">
-                    🗑️ Effacer
+                    🗑️ Clear
                 </button>
                 <button onclick="closeDrawModal()" class="w-1/2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl transition-all cursor-pointer">
-                    Terminé
+                    Done
                 </button>
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
     <footer class="text-center py-4 text-xs font-medium text-slate-400">
-        Basé sur la méthode visuelle de Ryan Estrada • Compatible GitHub Pages
+        Based on Ryan Estrada's visual method • GitHub Pages Ready
     </footer>
 
     <script>
-        // 1. Slides d'introduction BD
+        // Intro Slides
         const introSlides = [
             {
-                title: "Le coréen en 15 minutes",
+                title: "Learn to Read Korean in 15 Minutes",
                 emoji: "🇰🇷",
-                text: "Salut ! Je sais ce que vous pensez : le coréen a l'air super dur à lire, comme ces langues où il faut apprendre un nouveau symbole pour chaque mot..."
+                text: "Hey! I know Korean looks super hard to read, like one of those pictorial languages where you gotta learn a new symbol for every dang word..."
             },
             {
-                title: "L'alphabet le plus simple du monde",
+                title: "The Easiest Alphabet in the World",
                 emoji: "💡",
-                text: "En réalité, c'est un alphabet très simple ! Contrairement aux autres langues, un roi l'a créé sur mesure pour qu'il soit ultra facile à retenir."
+                text: "But it's actually just a super simple alphabet! One guy sat down one day and made up the Korean alphabet so it's ultra logical."
             },
             {
-                title: "Méthode visuelle",
+                title: "Visual Mnemonics",
                 emoji: "🎯",
-                text: "Retenez juste ces formes visuelles associées à des mots anglais simples. En quelques minutes, vous saurez tout lire !"
+                text: "Let's remember the core 11 letters using Ryan Estrada's visual associations, then combine them into syllables!"
             }
         ];
 
-        // 2. Base de données des cours (Basée sur Ryan Estrada & Eggbun)
+        // Lessons structured into Consonants, Vowels, and Syllables (18 + 2 as requested)
         const lessons = [
-            { type: "Consonne", char: "ㄱ", sound: "G / K", icon: "🔫", mnemonic: "Ressemble à un pistolet (<b>G</b>un).", spoken: "ㄱ" },
-            { type: "Consonne", char: "ㄴ", sound: "N", icon: "👃", mnemonic: "Ressemble à un nez de profil (<b>N</b>ose).", spoken: "ㄴ" },
-            { type: "Consonne", char: "ㄷ", sound: "D", icon: "🚪", mnemonic: "Ressemble à une porte (<b>D</b>oor).", spoken: "ㄷ" },
-            { type: "Consonne", char: "ㄹ", sound: "R / L", icon: "🐍", mnemonic: "Ressemble à un serpent (<b>R</b>attlesnake).", spoken: "ㄹ" },
-            { type: "Consonne", char: "ㅁ", sound: "M", icon: "🗺️", mnemonic: "Ressemble à une carte carrée (<b>M</b>ap).", spoken: "ㅁ" },
-            { type: "Consonne", char: "ㅂ", sound: "B", icon: "🪣", mnemonic: "Ressemble à un seau (<b>B</b>ucket).", spoken: "ㅂ" },
-            { type: "Consonne", char: "ㅅ", sound: "S", icon: "⛰️", mnemonic: "Ressemble au sommet d'une montagne (<b>S</b>ummit).", spoken: "ㅅ" },
-            { type: "Voyelle", char: "ㅣ", sound: "I (ee)", icon: "🌲", mnemonic: "Un arbre tout droit (Tr<b>ee</b>).", spoken: "ㅣ" },
-            { type: "Voyelle", char: "ㅡ", sound: "EU", icon: "🌊", mnemonic: "Un ruisseau plat (Br<b>oo</b>k).", spoken: "ㅡ" },
-            { type: "Syllabe", char: "비", sound: "BEE", icon: "🐝", mnemonic: "ㅂ (Bucket) + ㅣ (Tree) = <b>BEE</b> !", spoken: "비" },
-            { type: "Syllabe", char: "디", sound: "DEE", icon: "🎵", mnemonic: "ㄷ (Door) + ㅣ (Tree) = <b>DEE</b> !", spoken: "디" }
+            // Part 1: Consonants (8 items from sheet 1)
+            { type: "Consonant", char: "ㅇ", sound: "Nothing (Placeholder)", icon: "⭕", mnemonic: "Makes no sound, acts as a placeholder.", spoken: "ㅇ" },
+            { type: "Consonant", char: "ㅂ", sound: "B / P (Bucket)", icon: "🪣", mnemonic: "Looks like a seau (<span class='font-bold text-indigo-600'>Bucket</span>).", spoken: "ㅂ" },
+            { type: "Consonant", char: "ㄷ", sound: "D / T (Door)", icon: "🚪", mnemonic: "Looks like a door (<span class='font-bold text-indigo-600'>Door</span>).", spoken: "ㄷ" },
+            { type: "Consonant", char: "ㄱ", sound: "G / K (Gun)", icon: "🔫", mnemonic: "Looks like a gun (<span class='font-bold text-indigo-600'>Gun</span>).", spoken: "ㄱ" },
+            { type: "Consonant", char: "ㄹ", sound: "R / L (Rail)", icon: "🛤️", mnemonic: "Looks like a rail or rattlesnake (<span class='font-bold text-indigo-600'>Rail</span>).", spoken: "ㄹ" },
+            { type: "Consonant", char: "ㅁ", sound: "M (Mirror / Map)", icon: "🪞", mnemonic: "Looks like a mirror or map (<span class='font-bold text-indigo-600'>Map</span>).", spoken: "ㅁ" },
+            { type: "Consonant", char: "ㄴ", sound: "N (Nose)", icon: "👃", mnemonic: "Looks like a nose (<span class='font-bold text-indigo-600'>Nose</span>).", spoken: "ㄴ" },
+            { type: "Consonant", char: "ㅅ", sound: "S / T (Summit)", icon: "⛰️", mnemonic: "Looks like a summit (<span class='font-bold text-indigo-600'>Summit</span>).", spoken: "ㅅ" },
+            
+            // Part 2: Vowels (2 items from sheet 1)
+            { type: "Vowel", char: "ㅣ", sound: "EE (Tree)", icon: "🌲", mnemonic: "A vertical line like a tree (<span class='font-bold text-indigo-600'>Tree</span>).", spoken: "ㅣ" },
+            { type: "Vowel", char: "ㅡ", sound: "EU (Brook)", icon: "🌊", mnemonic: "A horizontal line like a brook (<span class='font-bold text-indigo-600'>Brook</span>).", spoken: "ㅡ" },
+
+            // Part 3: Syllable Combinations (18 blocks + 2 bonus blocks from sheet 2)
+            { type: "Syllable", char: "이", sound: "EEH", icon: "🌲", mnemonic: "Nothing + Tree = <b>EEH</b>", spoken: "이" },
+            { type: "Syllable", char: "비", sound: "BEE", icon: "🐝", mnemonic: "Bucket + Tree = <b>BEE</b>", spoken: "비" },
+            { type: "Syllable", char: "디", sound: "DEE", icon: "🎵", mnemonic: "Door + Tree = <b>DEE</b>", spoken: "디" },
+            { type: "Syllable", char: "기", sound: "GI", icon: "🔫", mnemonic: "Gun + Tree = <b>GI</b>", spoken: "기" },
+            { type: "Syllable", char: "리", sound: "REE", icon: "🛤️", mnemonic: "Rail + Tree = <b>REE</b>", spoken: "리" },
+            { type: "Syllable", char: "미", sound: "ME", icon: "🪞", mnemonic: "Map + Tree = <b>ME</b>", spoken: "미" },
+            { type: "Syllable", char: "니", sound: "KNEE", icon: "🦵", mnemonic: "Nose + Tree = <b>KNEE</b>", spoken: "니" },
+            { type: "Syllable", char: "피", sound: "PEE", icon: "💧", mnemonic: "Part 2 + Tree = <b>PEE</b>", spoken: "피" },
+            { type: "Syllable", char: "시", sound: "SHE", icon: "⛰️", mnemonic: "Summit + Tree = <b>SHE</b>", spoken: "시" },
+
+            { type: "Syllable", char: "으", sound: "EU", icon: "🌊", mnemonic: "Nothing + Brook = <b>EU</b>", spoken: "으" },
+            { type: "Syllable", char: "브", sound: "EU-B", icon: "🪣", mnemonic: "Bucket + Brook = <b>EU-B</b>", spoken: "브" },
+            { type: "Syllable", char: "드", sound: "EU-D", icon: "🚪", mnemonic: "Door + Brook = <b>EU-D</b>", spoken: "드" },
+            { type: "Syllable", char: "그", sound: "EU-G", icon: "🔫", mnemonic: "Gun + Brook = <b>EU-G</b>", spoken: "그" },
+            { type: "Syllable", char: "르", sound: "EU-R", icon: "🛤️", mnemonic: "Rail + Brook = <b>EU-R</b>", spoken: "르" },
+            { type: "Syllable", char: "므", sound: "EU-M", icon: "🪞", mnemonic: "Map + Brook = <b>EU-M</b>", spoken: "므" },
+            { type: "Syllable", char: "느", sound: "EU-N", icon: "👃", mnemonic: "Nose + Brook = <b>EU-N</b>", spoken: "느" },
+            { type: "Syllable", char: "프", sound: "EU-P", icon: "💧", mnemonic: "Part 2 + Brook = <b>EU-P</b>", spoken: "프" },
+            { type: "Syllable", char: "스", sound: "EU-S", icon: "⛰️", mnemonic: "Summit + Brook = <b>EU-S</b>", spoken: "스" },
+
+            // Bonus Bottom Blocks
+            { type: "Bonus Syllable", char: "빈", sound: "BEAN", icon: "🫘", mnemonic: "Bucket + Tree + Nose (bottom) = <b>BEAN</b>", spoken: "빈" },
+            { type: "Bonus Syllable", char: "북", sound: "BOOK", icon: "📖", mnemonic: "Bucket + Brook + Gun (bottom) = <b>BOOK</b>", spoken: "북" }
         ];
 
         let currentIntroSlide = 0;
         let currentLessonIndex = 0;
 
-        // Initialisation Intro
         function showIntroSlide(index) {
             const slide = introSlides[index];
             document.getElementById('intro-content').innerHTML = `
@@ -193,9 +228,9 @@
             
             document.getElementById('intro-prev-btn').classList.toggle('hidden', index === 0);
             if (index === introSlides.length - 1) {
-                document.getElementById('intro-next-btn').innerText = "C'est parti ! 🚀";
+                document.getElementById('intro-next-btn').innerText = "Let's Go! 🚀";
             } else {
-                document.getElementById('intro-next-btn').innerText = "Suivant →";
+                document.getElementById('intro-next-btn').innerText = "Next →";
             }
         }
 
@@ -230,7 +265,7 @@
                 document.getElementById('char-target').innerText = item.char;
                 document.getElementById('canvas-guide-char').innerText = item.char;
                 document.getElementById('char-bg-icon').innerText = item.icon;
-                document.getElementById('char-sound-label').innerText = "Son : " + item.sound;
+                document.getElementById('char-sound-label').innerText = "Sound : " + item.sound;
                 document.getElementById('char-mnemonic').innerHTML = item.mnemonic;
 
                 updateProgress();
@@ -252,16 +287,14 @@
             loadLessonStep();
         }
 
-        // 3. Audio robuste (Web Speech API)
         function playCurrentAudio() {
             if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // Annule la file précédente
+                window.speechSynthesis.cancel();
                 const item = lessons[currentLessonIndex];
                 const utterance = new SpeechSynthesisUtterance(item.spoken);
                 utterance.lang = 'ko-KR';
-                utterance.rate = 0.7; // Légèrement ralenti pour la clarté
+                utterance.rate = 0.7;
                 
-                // Recherche explicite d'une voix coréenne disponible
                 const voices = window.speechSynthesis.getVoices();
                 const koreanVoice = voices.find(v => v.lang.includes('ko'));
                 if (koreanVoice) utterance.voice = koreanVoice;
@@ -270,7 +303,6 @@
             }
         }
 
-        // 4. Gestion du Canvas de dessin (Souris & Tactile)
         const canvas = document.getElementById('paint-canvas');
         const ctx = canvas.getContext('2d');
         let painting = false;
@@ -298,7 +330,7 @@
 
             ctx.lineWidth = 12;
             ctx.lineCap = 'round';
-            ctx.strokeStyle = '#4f46e5'; // Indigo-600
+            ctx.strokeStyle = '#4f46e5';
 
             ctx.lineTo(x, y);
             ctx.stroke();
@@ -326,7 +358,6 @@
             document.getElementById('draw-modal').classList.add('hidden');
         }
 
-        // 5. Phase Quiz
         function startQuizPhase() {
             document.getElementById('lesson-screen').classList.add('hidden');
             document.getElementById('quiz-screen').classList.remove('hidden');
@@ -360,12 +391,12 @@
                 btn.innerText = choice;
                 btn.onclick = () => {
                     if (choice === item.sound) {
-                        document.getElementById('quiz-feedback').className = "text-sm font-semibold h-6 mb-4 text-emerald-600";
-                        document.getElementById('quiz-feedback').innerText = "Bravo ! 🎉";
+                        document.getElementById('quiz-feedbackclassName = "text-sm font-semibold h-6 mb-4 text-emerald-600";
+                        document.getElementById('quiz-feedback').innerText = "Correct! 🎉";
                         setTimeout(() => { quizCount++; loadQuizQuestion(); }, 800);
                     } else {
                         document.getElementById('quiz-feedback').className = "text-sm font-semibold h-6 mb-4 text-rose-500";
-                        document.getElementById('quiz-feedback').innerText = `Essayez encore ! C'était ${item.sound}`;
+                        document.getElementById('quiz-feedback').innerText = `Try again! It was ${item.sound}`;
                     }
                 };
                 container.appendChild(btn);
@@ -381,12 +412,10 @@
             showIntroSlide(0);
         }
 
-        // Charger les voix au préalable pour l'audio
         if ('speechSynthesis' in window) {
             window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
         }
 
-        // Lancement direct
         showIntroSlide(0);
     </script>
 </body>
