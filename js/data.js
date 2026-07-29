@@ -9,20 +9,20 @@ const flowSteps = [
     { type: 'slide', title: "Consonants", emoji: "📝", text: "Learn the 14 basic consonants with their official names and pronunciations." },
     {
         type: 'lesson', group: 'consonants', items: [
-            { type: "Consonant", char: "ㄱ", name: "gieuk", sound: "g", icon: "🔫", mnemonic: "Basic consonant <b>gieuk</b>, pronounced <b>g</b>.", spoken: "ㄱ" },
-            { type: "Consonant", char: "ㄴ", name: "nieun", sound: "n", icon: "👃", mnemonic: "Basic consonant <b>nieun</b>, pronounced <b>n</b>.", spoken: "ㄴ" },
-            { type: "Consonant", char: "ㄷ", name: "dieut", sound: "d", icon: "🚪", mnemonic: "Basic consonant <b>dieut</b>, pronounced <b>d</b>.", spoken: "ㄷ" },
-            { type: "Consonant", char: "ㄹ", name: "rieul", sound: "r (before vowel) / l", icon: "🐍", mnemonic: "Basic consonant <b>rieul</b>, pronounced <b>r / l</b>.", spoken: "ㄹ" },
-            { type: "Consonant", char: "ㅁ", name: "mieum", sound: "m", icon: "🗺️", mnemonic: "Basic consonant <b>mieum</b>, pronounced <b>m</b>.", spoken: "ㅁ" },
-            { type: "Consonant", char: "ㅂ", name: "bieup", sound: "b", icon: "🪣", mnemonic: "Basic consonant <b>bieup</b>, pronounced <b>b</b>.", spoken: "ㅂ" },
-            { type: "Consonant", char: "ㅅ", name: "sieut", sound: "s", icon: "⛰️", mnemonic: "Basic consonant <b>sieut</b>, pronounced <b>s</b>.", spoken: "ㅅ" },
-            { type: "Consonant", char: "ㅇ", name: "ieung", sound: "ng", icon: "⭕", mnemonic: "Basic consonant <b>ieung</b>, pronounced <b>ng</b> (silent placeholder at start).", spoken: "ㅇ" },
-            { type: "Consonant", char: "ㅈ", name: "jieut", sound: "j", icon: "👖", mnemonic: "Basic consonant <b>jieut</b>, pronounced <b>j</b>.", spoken: "ㅈ" },
-            { type: "Consonant", char: "ㅊ", name: "chieut", sound: "ch", icon: "🐓", mnemonic: "Basic consonant <b>chieut</b>, pronounced <b>ch</b>.", spoken: "ㅊ" },
-            { type: "Consonant", char: "ㅋ", name: "kieuk", sound: "k", icon: "🔫", mnemonic: "Basic consonant <b>kieuk</b>, pronounced <b>k</b>.", spoken: "ㅋ" },
-            { type: "Consonant", char: "ㅌ", name: "tieut", sound: "t", icon: "🚪", mnemonic: "Basic consonant <b>tieut</b>, pronounced <b>t</b>.", spoken: "ㅌ" },
-            { type: "Consonant", char: "ㅍ", name: "pieup", sound: "p", icon: "🏛️", mnemonic: "Basic consonant <b>pieup</b>, pronounced <b>p</b>.", spoken: "ㅍ" },
-            { type: "Consonant", char: "ㅎ", name: "hieut", sound: "h", icon: "👒", mnemonic: "Basic consonant <b>hieut</b>, pronounced <b>h</b>.", spoken: "ㅎ" }
+            { type: "Consonant", char: "ㄱ", name: "gieuk", sound: "g", icon: "🔫", mnemonic: "Basic consonant <b>gieuk</b>, pronounced <b>g</b> like a <b>Gun</b>.", spoken: "ㄱ" },
+            { type: "Consonant", char: "ㄴ", name: "nieun", sound: "n", icon: "👃", mnemonic: "Basic consonant <b>nieun</b>, pronounced <b>n</b> like a <b>Nose</b>.", spoken: "ㄴ" },
+            { type: "Consonant", char: "ㄷ", name: "dieut", sound: "d", icon: "🚪", mnemonic: "Basic consonant <b>dieut</b>, pronounced <b>d</b> like a <b>Door</b>.", spoken: "ㄷ" },
+            { type: "Consonant", char: "ㄹ", name: "rieul", sound: "r (before vowel) / l", icon: "🐍", mnemonic: "Basic consonant <b>rieul</b>, pronounced <b>r / l</b> like a <b>Rattlesnake</b>.", spoken: "ㄹ" },
+            { type: "Consonant", char: "ㅁ", name: "mieum", sound: "m", icon: "🗺️", mnemonic: "Basic consonant <b>mieum</b>, pronounced <b>m</b> like a <b>Map</b>.", spoken: "ㅁ" },
+            { type: "Consonant", char: "ㅂ", name: "bieup", sound: "b", icon: "🪣", mnemonic: "Basic consonant <b>bieup</b>, pronounced <b>b</b> like a <b>Bucket</b>.", spoken: "ㅂ" },
+            { type: "Consonant", char: "ㅅ", name: "sieut", sound: "s", icon: "⛰️", mnemonic: "Basic consonant <b>sieut</b>, pronounced <b>s</b> like a <b>Summit</b>.", spoken: "ㅅ" },
+            { type: "Consonant", char: "ㅇ", name: "ieung", sound: "ng", icon: "⭕", mnemonic: "Basic consonant <b>ieung</b>, like a <b>Zero</b> (no sound) or <b>riNG</b> at the end.", spoken: "ㅇ" },
+            { type: "Consonant", char: "ㅈ", name: "jieut", sound: "j", icon: "👖", mnemonic: "Basic consonant <b>jieut</b>, pronounced <b>j</b> like <b>Jeans</b>.", spoken: "ㅈ" },
+            { type: "Consonant", char: "ㅊ", name: "chieut", sound: "ch", icon: "🐓", mnemonic: "Basic consonant <b>chieut</b>, pronounced <b>ch</b> like a <b>Chicken</b>.", spoken: "ㅊ" },
+            { type: "Consonant", char: "ㅋ", name: "kieuk", sound: "k", icon: "🔑", mnemonic: "Basic consonant <b>kieuk</b>, pronounced <b>k</b> like a <b>Key</b>.", spoken: "ㅋ" },
+            { type: "Consonant", char: "ㅌ", name: "tieut", sound: "t", icon: "🔭", mnemonic: "Basic consonant <b>tieut</b>, pronounced <b>t</b> like a <b>Telescope</b>.", spoken: "ㅌ" },
+            { type: "Consonant", char: "ㅍ", name: "pieup", sound: "p", icon: "🏛️", mnemonic: "Basic consonant <b>pieup</b>, pronounced <b>p</b> like a <b>Pillar</b>.", spoken: "ㅍ" },
+            { type: "Consonant", char: "ㅎ", name: "hieut", sound: "h", icon: "👒", mnemonic: "Basic consonant <b>hieut</b>, pronounced <b>h</b> like a <b>Hat</b>.", spoken: "ㅎ" }
         ]
     },
 
@@ -30,16 +30,16 @@ const flowSteps = [
     { type: 'slide', title: "Vowels", emoji: "✨", text: "Learn the 10 basic vowels with their exact phonetic sounds." },
     {
         type: 'lesson', group: 'vowels', items: [
-            { type: "Vowel", char: "ㅏ", name: "a", sound: "a", icon: "🌲", mnemonic: "Vowel <b>a</b>, pronounced <b>a</b>.", spoken: "ㅏ" },
-            { type: "Vowel", char: "ㅑ", name: "ya", sound: "ya", icon: "🌲🌲", mnemonic: "Vowel <b>ya</b>, pronounced <b>ya</b>.", spoken: "ㅑ" },
-            { type: "Vowel", char: "ㅓ", name: "eo", sound: "eo (open o)", icon: "🌲", mnemonic: "Vowel <b>eo</b>, pronounced <b>eo (open o)</b>.", spoken: "ㅓ" },
-            { type: "Vowel", char: "ㅕ", name: "yeo", sound: "yeo (open o)", icon: "🌲🌲", mnemonic: "Vowel <b>yeo</b>, pronounced <b>yeo (open o)</b>.", spoken: "ㅕ" },
-            { type: "Vowel", char: "ㅗ", name: "o", sound: "o", icon: "🌊", mnemonic: "Vowel <b>o</b>, pronounced <b>o</b>.", spoken: "ㅗ" },
-            { type: "Vowel", char: "ㅛ", name: "yo", sound: "yo", icon: "🌊🌊", mnemonic: "Vowel <b>yo</b>, pronounced <b>yo</b>.", spoken: "ㅛ" },
-            { type: "Vowel", char: "ㅜ", name: "u", sound: "u", icon: "🌊", mnemonic: "Vowel <b>u</b>, pronounced <b>u</b>.", spoken: "ㅜ" },
-            { type: "Vowel", char: "ㅠ", name: "yu", sound: "yu", icon: "🌊🌊", mnemonic: "Vowel <b>yu</b>, pronounced <b>yu</b>.", spoken: "ㅠ" },
-            { type: "Vowel", char: "ㅡ", name: "eu", sound: "eu", icon: "🌊", mnemonic: "Vowel <b>eu</b>, pronounced <b>eu</b>.", spoken: "ㅡ" },
-            { type: "Vowel", char: "ㅣ", name: "i", sound: "i", icon: "🌲", mnemonic: "Vowel <b>i</b>, pronounced <b>i</b>.", spoken: "ㅣ" }
+            { type: "Vowel", char: "ㅏ", name: "a", sound: "a", icon: "➡️", mnemonic: "Vowel <b>a</b>, Branch pointing <b>Out (Ah!)</b>.", spoken: "ㅏ" },
+            { type: "Vowel", char: "ㅑ", name: "ya", sound: "ya", icon: "⏩", mnemonic: "Vowel <b>ya</b>, Two branches pointing <b>Out</b>.", spoken: "ㅑ" },
+            { type: "Vowel", char: "ㅓ", name: "eo", sound: "eo (open o)", icon: "⬅️", mnemonic: "Vowel <b>eo</b>, Branch pointing <b>In (Uh!)</b>.", spoken: "ㅓ" },
+            { type: "Vowel", char: "ㅕ", name: "yeo", sound: "yeo (open o)", icon: "⏪", mnemonic: "Vowel <b>yeo</b>, Two branches pointing <b>In</b>.", spoken: "ㅕ" },
+            { type: "Vowel", char: "ㅗ", name: "o", sound: "o", icon: "⬆️", mnemonic: "Vowel <b>o</b>, Pointing <b>Over</b>.", spoken: "ㅗ" },
+            { type: "Vowel", char: "ㅛ", name: "yo", sound: "yo", icon: "⏫", mnemonic: "Vowel <b>yo</b>, Two branches pointing <b>Over</b>.", spoken: "ㅛ" },
+            { type: "Vowel", char: "ㅜ", name: "u", sound: "u", icon: "⬇️", mnemonic: "Vowel <b>u</b>, Pointing <b>Under</b>.", spoken: "ㅜ" },
+            { type: "Vowel", char: "ㅠ", name: "yu", sound: "yu", icon: "⏬", mnemonic: "Vowel <b>yu</b>, Two branches pointing <b>Under</b>.", spoken: "ㅠ" },
+            { type: "Vowel", char: "ㅡ", name: "eu", sound: "eu", icon: "〰️", mnemonic: "Vowel <b>eu</b>, flat like a <b>Brook</b>.", spoken: "ㅡ" },
+            { type: "Vowel", char: "ㅣ", name: "i", sound: "i", icon: "🌲", mnemonic: "Vowel <b>i</b>, straight like a <b>Tree</b>.", spoken: "ㅣ" }
         ]
     },
 
