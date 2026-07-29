@@ -364,3 +364,6 @@ function closeDrawModal() { document.getElementById('draw-modal').classList.add(
 if ('speechSynthesis' in window) {
     window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
 }
+
+// --- INITIALIZATION ---
+document.getElementById('current-year').textContent = new Date().getFullYear();

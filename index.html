@@ -91,7 +91,8 @@
                             📋
                         </div>
                         <h3 class="text-lg font-bold text-slate-900 mb-1">Review Table</h3>
-                        <p class="text-slate-500 text-xs leading-relaxed">Complete cheat sheet of all Jamo characters. Click to hear pronunciation or practice drawing.</p>
+                        <p class="text-slate-500 text-xs leading-relaxed">Complete cheat sheet of all Jamo characters.
+                            Click to hear pronunciation or practice drawing.</p>
                     </div>
                     <div class="mt-6 flex items-center text-emerald-600 font-bold text-xs">
                         Open Cheat Sheet →
@@ -201,26 +202,31 @@
 
         <!-- PART 3: REVIEW TABLE CONTAINER -->
         <div id="review-container" class="w-full hidden flex flex-col items-center">
-            <div class="w-full bg-white rounded-3xl p-6 shadow-xl shadow-emerald-100/50 border border-slate-100 fade-in">
-                
+            <div
+                class="w-full bg-white rounded-3xl p-6 shadow-xl shadow-emerald-100/50 border border-slate-100 fade-in">
+
                 <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-                    <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-50 text-emerald-600">
+                    <span
+                        class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-emerald-50 text-emerald-600">
                         📋 Complete Cheat Sheet
                     </span>
-                    
+
                     <!-- Self Evaluation Toggle -->
                     <label class="flex items-center cursor-pointer">
                         <div class="relative">
                             <input type="checkbox" id="eval-toggle" class="sr-only" onchange="toggleEvalMode()">
-                            <div class="block bg-slate-200 w-10 h-6 rounded-full transition-colors" id="eval-toggle-bg"></div>
-                            <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform" id="eval-toggle-dot"></div>
+                            <div class="block bg-slate-200 w-10 h-6 rounded-full transition-colors" id="eval-toggle-bg">
+                            </div>
+                            <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform"
+                                id="eval-toggle-dot"></div>
                         </div>
                         <div class="ml-3 text-slate-700 font-semibold text-sm">Self-Evaluation Mode (Blur)</div>
                     </label>
                 </div>
 
                 <div class="text-xs text-slate-500 mb-4 text-center">
-                    💡 <strong>Tip:</strong> Click the <span class="text-indigo-500">🔊 icon</span> to hear the sound, or click the <strong>Korean character</strong> to practice drawing it.
+                    💡 <strong>Tip:</strong> Click the <span class="text-indigo-500">🔊 icon</span> to hear the sound,
+                    or click the <strong>Korean character</strong> to practice drawing it.
                 </div>
 
                 <div class="overflow-x-auto rounded-xl border border-slate-200">
@@ -228,9 +234,10 @@
                         <!-- Table content generated dynamically via JS -->
                     </table>
                 </div>
-                
+
                 <div class="mt-6 text-center">
-                    <button onclick="goHome()" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 cursor-pointer text-sm">
+                    <button onclick="goHome()"
+                        class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 cursor-pointer text-sm">
                         ← Exit Review
                     </button>
                 </div>
@@ -286,7 +293,7 @@
 
     <!-- Footer -->
     <footer class="text-center py-4 text-xs font-medium text-slate-400">
-        Based on official Korean Jamo table & Ryan Estrada's method • GitHub Pages Ready
+        Based on official Korean Jamo table & Ryan Estrada's method • Designed by ©nef <span id="current-year"></span>
     </footer>
 
     <!-- Scripts -->
