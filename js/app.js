@@ -1,5 +1,6 @@
 // --- NAVIGATION & MODE SWITCHING ---
 function goHome() {
+    document.querySelector('main').classList.replace('max-w-2xl', 'max-w-5xl');
     document.getElementById('home-screen').classList.remove('hidden');
     document.getElementById('learning-container').classList.add('hidden');
     document.getElementById('training-container').classList.add('hidden');
@@ -10,6 +11,7 @@ function goHome() {
 }
 
 function startLearning() {
+    document.querySelector('main').classList.replace('max-w-5xl', 'max-w-2xl');
     document.getElementById('home-screen').classList.add('hidden');
     document.getElementById('learning-container').classList.remove('hidden');
     document.getElementById('nav-controls').classList.remove('hidden');
@@ -21,6 +23,7 @@ let trainingScore = 0;
 let trainingAttemptsForCurrent = 0;
 
 function startTraining() {
+    document.querySelector('main').classList.replace('max-w-5xl', 'max-w-2xl');
     document.getElementById('home-screen').classList.add('hidden');
     document.getElementById('training-container').classList.remove('hidden');
     document.getElementById('nav-controls').classList.remove('hidden');
@@ -31,6 +34,7 @@ function startTraining() {
 }
 
 function startReview() {
+    document.querySelector('main').classList.replace('max-w-5xl', 'max-w-2xl');
     document.getElementById('home-screen').classList.add('hidden');
     document.getElementById('review-container').classList.remove('hidden');
     document.getElementById('nav-controls').classList.remove('hidden');
@@ -327,6 +331,7 @@ function nextTrainingStep() {
 let currentHistoryIndex = 0;
 
 function startHistory() {
+    document.querySelector('main').classList.replace('max-w-5xl', 'max-w-2xl');
     document.getElementById('home-screen').classList.add('hidden');
     document.getElementById('history-container').classList.remove('hidden');
     document.getElementById('nav-controls').classList.remove('hidden');
