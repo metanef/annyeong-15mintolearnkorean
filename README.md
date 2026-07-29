@@ -1,11 +1,23 @@
-# Learn to Read Korean in 15 Minutes 🇰🇷
+<div align="center">
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+  <h1>🇰🇷 Learn to Read Korean in 15 Minutes</h1>
 
-An interactive, visual single-page web application designed to teach the fundamentals of reading Hangul (the Korean alphabet) in under 15 minutes. 
+  <p><strong>An interactive, visual single-page web application designed to teach the fundamentals of reading Hangul (the Korean alphabet) in under 15 minutes.</strong></p>
+
+  <p>
+    <a href="https://metanef.github.io/annyeong-15mintolearnkorean/"><img src="https://img.shields.io/badge/LIVE%20DEMO-PLAY%20ONLINE-2ecc71?style=for-the-badge" alt="Live Demo" /></a>
+    <img src="https://img.shields.io/badge/VERSION-1.0.0-9b59b6?style=for-the-badge" alt="Version" />
+  </p>
+
+  <p>
+    <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" />
+    <img src="https://img.shields.io/badge/TailwindCSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="TailwindCSS" />
+    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
+  </p>
+
+</div>
+
+---
 
 This project is built using a highly effective, visual mnemonic-based approach inspired by Ryan Estrada's famous comic guide.
 
@@ -78,6 +90,9 @@ This application is 100% compatible and ready for instant deployment on static h
 - [x] Modular Architecture (HTML/CSS/JS)
 - [x] Interactive Review Table (Auto-evaluation, Audio, Drawing)
 - [x] "Pop-Culture" Training Mode (Ryan Estrada method)
+- [x] Add a 4th module that tells the story of the Korean language (Hangeul) in 5 slides.
+
 
 ### ⏳ To Do
-- [ ] Add a 4th module that tells the story of the Korean language (Hangeul) in 5 slides.
+- [ ] make the module line larger
+- [ ] add a slide at the end of double consonants and complex voyels that explains as Ryan
