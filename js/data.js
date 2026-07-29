@@ -79,25 +79,119 @@ const flowSteps = [
 
 // --- PART 2: TRAINING LOGIC ---
 const trainingExercises = [
+    // TYPE: Hangul -> Text
     {
-        type: "quiz",
-        question: "Match the Korean characters to the Pop-Culture Name:",
+        type: "hangul-to-text",
+        question: "Which pop-culture name is this?",
         target: "배트맨",
-        choices: ["Batman", "Mario", "Totoro", "Mickey"],
+        choices: ["Batman", "Superman", "Spiderman", "Ironman"],
         answer: "Batman"
     },
     {
-        type: "quiz",
-        question: "What is this character's name in Korean?",
-        target: "토 토 로",
-        choices: ["Elmo", "Totoro", "Harry Potter", "Gollum"],
-        answer: "Totoro"
+        type: "hangul-to-text",
+        question: "Read the Hangul and select the matching name:",
+        target: "마리오",
+        choices: ["Mickey", "Mario", "Nemo", "Luigi"],
+        answer: "Mario"
     },
     {
-        type: "quiz",
-        question: "Identify this famous character name block:",
-        target: "마 리 오",
-        choices: ["Marge", "Mario", "Nemo", "Mickey"],
-        answer: "Mario"
+        type: "hangul-to-text",
+        question: "Identify this famous wizard:",
+        target: "해리 포터",
+        choices: ["Harry Potter", "Hermione", "Sherlock", "Gollum"],
+        answer: "Harry Potter"
+    },
+    {
+        type: "hangul-to-text",
+        question: "Which movie is this?",
+        target: "타이타닉",
+        choices: ["Matrix", "Avatar", "Titanic", "Star Wars"],
+        answer: "Titanic"
+    },
+    {
+        type: "hangul-to-text",
+        question: "Who is this animated character?",
+        target: "토토로",
+        choices: ["Snoopy", "Totoro", "Pikachu", "Elmo"],
+        answer: "Totoro"
+    },
+    
+    // TYPE: Text -> Hangul
+    {
+        type: "text-to-hangul",
+        question: "What is the Korean spelling for 'Superman'?",
+        target: "Superman",
+        choices: ["슈퍼맨", "배트맨", "스파이더맨", "어벤져스"],
+        answer: "슈퍼맨"
+    },
+    {
+        type: "text-to-hangul",
+        question: "Find the Hangul for 'Pikachu':",
+        target: "Pikachu",
+        choices: ["스누피", "토토로", "마리오", "피카츄"],
+        answer: "피카츄"
+    },
+    {
+        type: "text-to-hangul",
+        question: "How do you write 'Disney'?",
+        target: "Disney",
+        choices: ["아바타", "디즈니", "셜록", "매트릭스"],
+        answer: "디즈니"
+    },
+    {
+        type: "text-to-hangul",
+        question: "Select the Hangul blocks for 'Star Wars':",
+        target: "Star Wars",
+        choices: ["스타워즈", "어벤져스", "타이타닉", "매트릭스"],
+        answer: "스타워즈"
+    },
+    {
+        type: "text-to-hangul",
+        question: "Find the Hangul for 'Sherlock':",
+        target: "Sherlock",
+        choices: ["해리 포터", "호머 심슨", "셜록", "스누피"],
+        answer: "셜록"
+    },
+
+    // TYPE: Audio -> Hangul
+    {
+        type: "audio-to-hangul",
+        question: "Listen to the audio and select the matching name:",
+        target: "🎧",
+        spoken: "스파이더맨",
+        choices: ["배트맨", "슈퍼맨", "스파이더맨", "어벤져스"],
+        answer: "스파이더맨"
+    },
+    {
+        type: "audio-to-hangul",
+        question: "Which movie name did you hear?",
+        target: "🎧",
+        spoken: "매트릭스",
+        choices: ["스타워즈", "아바타", "매트릭스", "타이타닉"],
+        answer: "매트릭스"
+    },
+    {
+        type: "audio-to-hangul",
+        question: "Identify the character from the audio:",
+        target: "🎧",
+        spoken: "스누피",
+        choices: ["스누피", "피카츄", "토토로", "마리오"],
+        answer: "스누피"
+    },
+    {
+        type: "audio-to-hangul",
+        question: "Listen and find the matching Hangul:",
+        target: "🎧",
+        spoken: "호머 심슨",
+        choices: ["해리 포터", "호머 심슨", "셜록", "디즈니"],
+        answer: "호머 심슨"
+    },
+    {
+        type: "audio-to-hangul",
+        question: "Which pop-culture word is being spoken?",
+        target: "🎧",
+        spoken: "아바타",
+        choices: ["매트릭스", "타이타닉", "아바타", "어벤져스"],
+        answer: "아바타"
     }
 ];

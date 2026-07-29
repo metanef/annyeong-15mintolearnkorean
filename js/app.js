@@ -16,12 +16,16 @@ function startLearning() {
     renderCurrentStep();
 }
 
+let trainingScore = 0;
+let trainingAttemptsForCurrent = 0;
+
 function startTraining() {
     document.getElementById('home-screen').classList.add('hidden');
     document.getElementById('training-container').classList.remove('hidden');
     document.getElementById('nav-controls').classList.remove('hidden');
     document.getElementById('progress-container').classList.add('hidden');
     currentTrainingIndex = 0;
+    trainingScore = 0;
     loadTrainingStep();
 }
 
@@ -229,9 +233,11 @@ function playSpecificAudio(spokenText) {
 let currentTrainingIndex = 0;
 
 function loadTrainingStep() {
+    trainingAttemptsForCurrent = 0;
     const container = document.getElementById('training-content');
     const nextBtn = document.getElementById('training-next-btn');
     const feedback = document.getElementById('training-feedback');
+    const progressText = document.getElementById('training-progress-text');
     feedback.innerText = "";
     nextBtn.classList.add('hidden');
 
@@ -239,15 +245,29 @@ function loadTrainingStep() {
         document.getElementById('training-container').classList.add('hidden');
         document.getElementById('end-screen').classList.remove('hidden');
         document.getElementById('end-title').innerText = "Training Completed! ⚡";
-        document.getElementById('end-desc').innerText = "You successfully passed all training exercises!";
+        document.getElementById('end-desc').innerText = `You scored ${trainingScore} out of ${trainingExercises.length}!`;
         return;
     }
 
+    if (progressText) {
+        progressText.innerText = `Question ${currentTrainingIndex + 1} / ${trainingExercises.length}`;
+    }
+
     const ex = trainingExercises[currentTrainingIndex];
+    let targetHtml = `<span class="text-5xl font-black text-amber-600 tracking-wider bg-amber-50 px-6 py-4 rounded-2xl inline-block border border-amber-100">${ex.target}</span>`;
+    
+    if (ex.type === 'audio-to-hangul') {
+        targetHtml = `
+            <button onclick="playSpecificAudio('${ex.spoken}')" class="text-5xl font-black text-amber-600 bg-amber-50 px-8 py-6 rounded-3xl inline-block border-4 border-amber-200 hover:bg-amber-100 hover:scale-105 transition-all shadow-lg cursor-pointer focus:outline-none">
+                🎧 Play Audio
+            </button>
+        `;
+    }
+
     container.innerHTML = `
         <h3 class="font-bold text-lg text-slate-900 mb-2">${ex.question}</h3>
         <div class="my-6">
-            <span class="text-5xl font-black text-amber-600 tracking-wider bg-amber-50 px-6 py-4 rounded-2xl inline-block border border-amber-100">${ex.target}</span>
+            ${targetHtml}
         </div>
         <div id="training-options" class="grid grid-cols-2 gap-3 mb-4"></div>
     `;
@@ -255,24 +275,43 @@ function loadTrainingStep() {
     const optionsContainer = document.getElementById('training-options');
     ex.choices.forEach(choice => {
         const btn = document.createElement('button');
-        btn.className = "bg-slate-50 hover:bg-amber-50 border border-slate-200 hover:border-amber-200 text-slate-800 font-bold py-4 rounded-xl transition-all cursor-pointer text-sm";
+        btn.className = "bg-slate-50 hover:bg-amber-50 border border-slate-200 hover:border-amber-200 text-slate-800 font-bold py-4 rounded-xl transition-all cursor-pointer text-sm sm:text-base";
         btn.innerText = choice;
-        btn.onclick = () => checkTrainingAnswer(choice, ex.answer);
+        btn.onclick = () => checkTrainingAnswer(choice, ex, btn);
         optionsContainer.appendChild(btn);
     });
 }
 
-function checkTrainingAnswer(selected, correct) {
+function checkTrainingAnswer(selected, ex, btnElem) {
     const feedback = document.getElementById('training-feedback');
     const nextBtn = document.getElementById('training-next-btn');
+    trainingAttemptsForCurrent++;
 
-    if (selected === correct) {
+    if (selected === ex.answer) {
+        if (trainingAttemptsForCurrent === 1) {
+            trainingScore++;
+        }
+        btnElem.classList.remove('bg-slate-50', 'hover:bg-amber-50', 'text-slate-800', 'border-slate-200');
+        btnElem.classList.add('bg-emerald-500', 'text-white', 'border-emerald-600');
+        
         feedback.className = "text-sm font-semibold h-6 my-3 text-emerald-600";
         feedback.innerText = "Correct! 🎉";
         nextBtn.classList.remove('hidden');
+        
+        // Auto play audio for correct answer if it's hangul
+        if (ex.type === 'text-to-hangul' || ex.type === 'audio-to-hangul') {
+            playSpecificAudio(ex.answer);
+        } else if (ex.type === 'hangul-to-text') {
+            playSpecificAudio(ex.target);
+        }
+
         const buttons = document.querySelectorAll('#training-options button');
         buttons.forEach(b => b.disabled = true);
     } else {
+        btnElem.classList.remove('bg-slate-50', 'hover:bg-amber-50');
+        btnElem.classList.add('bg-rose-100', 'text-rose-600', 'border-rose-300', 'opacity-50');
+        btnElem.disabled = true;
+        
         feedback.className = "text-sm font-semibold h-6 my-3 text-rose-500";
         feedback.innerText = "Incorrect. Try again!";
     }
