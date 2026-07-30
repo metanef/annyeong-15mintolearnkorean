@@ -442,10 +442,26 @@ function clearCanvas() {
     resetDrawFeedback();
 }
 
+let currentTargetChar = 'ㄱ';
+
+function renderGuideChar(char) {
+    currentTargetChar = char;
+    const guideCanvas = document.getElementById('guide-canvas');
+    if (!guideCanvas) return;
+    const gCtx = guideCanvas.getContext('2d');
+    gCtx.clearRect(0, 0, 256, 256);
+
+    gCtx.font = '900 135px "Plus Jakarta Sans", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif';
+    gCtx.textAlign = 'center';
+    gCtx.textBaseline = 'middle';
+    gCtx.fillStyle = '#cbd5e1'; // Slate-300 light guide color
+    gCtx.fillText(char, 128, 138);
+}
+
 function openDrawModal(charTarget = null) {
     clearCanvas();
     const targetChar = (typeof charTarget === 'string' && charTarget) ? charTarget : (document.getElementById('char-target')?.innerText || 'ㄱ');
-    document.getElementById('canvas-guide-char').innerText = targetChar;
+    renderGuideChar(targetChar);
     document.getElementById('draw-modal').classList.remove('hidden');
 }
 
@@ -461,14 +477,13 @@ function closeDrawModalOnBackdrop(e) {
 }
 
 /**
- * Calculates stroke precision and coverage using strokeText outline corridor ONLY.
- * Removes fillText to ensure hollow letter centers (ㅇ, ㅁ, ㅂ) and background
- * are not falsely counted as stencil area.
+ * Calculates stroke precision and coverage using synchronized Canvas 2D stencil rendering.
+ * Ensures the visual guide character and validation stencil share exact (128, 138) coordinates.
  */
 function validateDrawing() {
-    const targetChar = document.getElementById('canvas-guide-char').innerText || 'ㄱ';
     const badge = document.getElementById('draw-feedback-badge');
     const box = document.getElementById('canvas-container-box');
+    const targetChar = currentTargetChar || 'ㄱ';
 
     // 1. Get user drawing pixels
     const userImgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
@@ -479,24 +494,24 @@ function validateDrawing() {
 
     if (userPixelCount < 80) {
         badge.className = "min-h-[28px] mb-3 text-xs font-bold bg-amber-50 text-amber-600 border border-amber-200 rounded-xl py-1 px-3 flex items-center justify-center";
-        badge.innerHTML = "✏️ Trace the letter guide first!";
+        badge.innerHTML = "✏️ Trace over the visible guide character first!";
         return;
     }
 
-    // 2. Render ONLY the stroke outline corridor on Offscreen Canvas (lineWidth = 24)
-    // NOTE: We do NOT use fillText, so hollow letter centers (ㅇ, ㅁ, ㅂ) remain 100% empty!
+    // 2. Render Stencil Outline Envelope on Offscreen Canvas (lineWidth = 18 at y = 138)
+    // EXACT SAME (128, 138) coordinates and font spec as renderGuideChar!
     const stencilCanvas = document.createElement('canvas');
     stencilCanvas.width = 256;
     stencilCanvas.height = 256;
     const sCtx = stencilCanvas.getContext('2d');
-    sCtx.font = '900 128px "Plus Jakarta Sans", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif';
+    sCtx.font = '900 135px "Plus Jakarta Sans", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif';
     sCtx.textAlign = 'center';
     sCtx.textBaseline = 'middle';
     sCtx.strokeStyle = '#000000';
-    sCtx.lineWidth = 24; // Tight 24px stroke corridor around character lines
+    sCtx.lineWidth = 18; // Tight 18px stroke corridor around character lines
     sCtx.lineCap = 'round';
     sCtx.lineJoin = 'round';
-    sCtx.strokeText(targetChar, 128, 128);
+    sCtx.strokeText(targetChar, 128, 138);
 
     const stencilData = sCtx.getImageData(0, 0, 256, 256).data;
 
@@ -517,19 +532,19 @@ function validateDrawing() {
         }
     }
 
-    // Precision: % of user's stroke that is on the letter path
+    // Precision: % of user's stroke that stays strictly on the guide lines
     const precisionPct = Math.min(Math.round((inBoundsPixelCount / userPixelCount) * 100), 99);
     // Coverage: % of letter path that user covered
     const coveragePct = stencilPixelCount > 0 ? (inBoundsPixelCount / stencilPixelCount) : 0;
 
-    const MIN_PRECISION = 75; // At least 75% of user's stroke must stay on the letter path
-    const MIN_COVERAGE = 0.20; // Must cover at least 20% of the character stroke
+    const MIN_PRECISION = 80; // High precision: 80% of user's stroke MUST be on the guide lines
+    const MIN_COVERAGE = 0.28; // Must trace at least 28% of the letter stroke
 
     if (precisionPct >= MIN_PRECISION && coveragePct >= MIN_COVERAGE) {
         // SUCCESS
         box.className = "relative w-64 h-64 mx-auto mb-3 border-4 border-emerald-500 rounded-2xl overflow-hidden bg-emerald-50/30 transition-all duration-300 shadow-lg shadow-emerald-100";
         badge.className = "min-h-[28px] mb-3 text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-300 rounded-xl py-1 px-3 flex items-center justify-center fade-in";
-        badge.innerHTML = `🎉 ${precisionPct}% stroke accuracy! Excellent! ✨`;
+        badge.innerHTML = `🎉 ${precisionPct}% Precision! Perfect stroke! ✨`;
 
         playSpecificAudio(targetChar);
 
@@ -544,7 +559,7 @@ function validateDrawing() {
         if (coveragePct < MIN_COVERAGE) {
             badge.innerHTML = `✏️ Trace more of the letter lines!`;
         } else {
-            badge.innerHTML = `✏️ ${precisionPct}% on stroke — ${100 - precisionPct}% went outside! (Need 75%)`;
+            badge.innerHTML = `✏️ ${precisionPct}% on guide — Trace directly over the light grey letter! (Target: 80%)`;
         }
     }
 }
