@@ -66,9 +66,9 @@ function renderCurrentStep() {
         document.getElementById('intro-prev-btn').classList.toggle('hidden', currentFlowIndex === 0);
         const nextStep = flowSteps[currentFlowIndex + 1];
         if (nextStep && nextStep.type === 'lesson') {
-            document.getElementById('intro-next-btn').innerText = "Start Section →";
+            document.getElementById('intro-next-btn').innerHTML = 'Start Section <ion-icon name="chevron-forward-outline"></ion-icon>';
         } else {
-            document.getElementById('intro-next-btn').innerText = "Next →";
+            document.getElementById('intro-next-btn').innerHTML = 'Next <ion-icon name="chevron-forward-outline"></ion-icon>';
         }
     } else if (step.type === 'lesson') {
         document.getElementById('intro-screen').classList.add('hidden');
