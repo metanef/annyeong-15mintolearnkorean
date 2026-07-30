@@ -29,3 +29,58 @@ body {
 .self-eval-active .eval-hide:hover {
     filter: blur(0);
 }
+
+/* Left-to-right text color fill animation on hover (Desktop only) */
+@media (hover: hover) and (min-width: 768px) {
+    .card-label-indigo {
+        background: linear-gradient(to right, #4f46e5 50%, #94a3b8 50%);
+        background-size: 200% 100%;
+        background-position: 100% 0;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transition: background-position 0.5s ease-out;
+    }
+    .group:hover .card-label-indigo {
+        background-position: 0 0;
+    }
+
+    .card-label-amber {
+        background: linear-gradient(to right, #d97706 50%, #94a3b8 50%);
+        background-size: 200% 100%;
+        background-position: 100% 0;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transition: background-position 0.5s ease-out;
+    }
+    .group:hover .card-label-amber {
+        background-position: 0 0;
+    }
+
+    .card-label-emerald {
+        background: linear-gradient(to right, #059669 50%, #94a3b8 50%);
+        background-size: 200% 100%;
+        background-position: 100% 0;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transition: background-position 0.5s ease-out;
+    }
+    .group:hover .card-label-emerald {
+        background-position: 0 0;
+    }
+
+    .card-label-rose {
+        background: linear-gradient(to right, #e11d48 50%, #94a3b8 50%);
+        background-size: 200% 100%;
+        background-position: 100% 0;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transition: background-position 0.5s ease-out;
+    }
+    .group:hover .card-label-rose {
+        background-position: 0 0;
+    }
+}
