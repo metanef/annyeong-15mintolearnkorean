@@ -454,6 +454,12 @@ function closeDrawModal() {
     resetDrawFeedback();
 }
 
+function closeDrawModalOnBackdrop(e) {
+    if (e.target === document.getElementById('draw-modal')) {
+        closeDrawModal();
+    }
+}
+
 /**
  * Calculates accuracy between user drawing on canvas and stencil target character.
  * Uses offscreen canvas stencil rendering with stroke padding for human drawing tolerance.
