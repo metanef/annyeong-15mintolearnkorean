@@ -461,9 +461,8 @@ function closeDrawModalOnBackdrop(e) {
 }
 
 /**
- * Calculates accuracy between user drawing on canvas and stencil target character.
- * Uses dual-mask comparison (Core target + Wide Tolerance envelope) to accurately
- * evaluate Coverage (Recall) and Precision (in-bounds constraint).
+ * Calculates accuracy based on In-Bounds Precision:
+ * Validates that at least 80% of the user's drawn stroke pixels fall inside the stencil outline path.
  */
 function validateDrawing() {
     const targetChar = document.getElementById('canvas-guide-char').innerText || 'ㄱ';
@@ -479,68 +478,49 @@ function validateDrawing() {
 
     if (userPixelCount < 60) {
         badge.className = "min-h-[28px] mb-3 text-xs font-bold bg-amber-50 text-amber-600 border border-amber-200 rounded-xl py-1 px-3 flex items-center justify-center";
-        badge.innerHTML = "✏️ Trace over the letter guide first!";
+        badge.innerHTML = "✏️ Draw inside the letter guide first!";
         return;
     }
 
-    const fontSpec = '900 128px "Plus Jakarta Sans", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif';
+    // 2. Render Stencil Outline Envelope on Offscreen Canvas (lineWidth = 36)
+    const stencilCanvas = document.createElement('canvas');
+    stencilCanvas.width = 256;
+    stencilCanvas.height = 256;
+    const sCtx = stencilCanvas.getContext('2d');
+    sCtx.font = '900 128px "Plus Jakarta Sans", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif';
+    sCtx.textAlign = 'center';
+    sCtx.textBaseline = 'middle';
+    sCtx.fillStyle = '#000';
+    sCtx.strokeStyle = '#000';
+    sCtx.lineWidth = 36; // Stencil stroke envelope width
+    sCtx.lineCap = 'round';
+    sCtx.lineJoin = 'round';
+    sCtx.fillText(targetChar, 128, 128);
+    sCtx.strokeText(targetChar, 128, 128);
 
-    // 2. Generate Core Mask (lineWidth = 14) for Coverage
-    const coreCanvas = document.createElement('canvas');
-    coreCanvas.width = 256; coreCanvas.height = 256;
-    const cCtx = coreCanvas.getContext('2d');
-    cCtx.font = fontSpec;
-    cCtx.textAlign = 'center';
-    cCtx.textBaseline = 'middle';
-    cCtx.fillStyle = '#000'; cCtx.strokeStyle = '#000';
-    cCtx.lineWidth = 14;
-    cCtx.lineCap = 'round'; cCtx.lineJoin = 'round';
-    cCtx.fillText(targetChar, 128, 128);
-    cCtx.strokeText(targetChar, 128, 128);
-    const coreData = cCtx.getImageData(0, 0, 256, 256).data;
+    const stencilData = sCtx.getImageData(0, 0, 256, 256).data;
 
-    // 3. Generate Tolerance Mask (lineWidth = 48) for In-Bounds Precision
-    const tolCanvas = document.createElement('canvas');
-    tolCanvas.width = 256; tolCanvas.height = 256;
-    const tCtx = tolCanvas.getContext('2d');
-    tCtx.font = fontSpec;
-    tCtx.textAlign = 'center';
-    tCtx.textBaseline = 'middle';
-    tCtx.fillStyle = '#000'; tCtx.strokeStyle = '#000';
-    tCtx.lineWidth = 48; // Generous envelope around character strokes
-    tCtx.lineCap = 'round'; tCtx.lineJoin = 'round';
-    tCtx.fillText(targetChar, 128, 128);
-    tCtx.strokeText(targetChar, 128, 128);
-    const tolData = tCtx.getImageData(0, 0, 256, 256).data;
+    // 3. Count how many of the user's drawn pixels landed inside the stencil outline
+    let inBoundsPixelCount = 0;
 
-    // 4. Pixel Overlap Analysis
-    let corePixelCount = 0;
-    let coreCoveredCount = 0;
-    let validUserPixelCount = 0;
-
-    for (let i = 3; i < coreData.length; i += 4) {
-        const isCore = coreData[i] > 30;
-        const isTol = tolData[i] > 30;
+    for (let i = 3; i < userImgData.length; i += 4) {
         const isUser = userImgData[i] > 40;
+        const isInsideStencil = stencilData[i] > 30;
 
-        if (isCore) corePixelCount++;
-        if (isCore && isUser) coreCoveredCount++;
-        if (isUser && isTol) validUserPixelCount++;
+        if (isUser && isInsideStencil) {
+            inBoundsPixelCount++;
+        }
     }
 
-    const coverage = corePixelCount > 0 ? (coreCoveredCount / corePixelCount) : 0;
-    const precision = userPixelCount > 0 ? (validUserPixelCount / userPixelCount) : 0;
+    // 4. In-Bounds Accuracy Percentage (Precision)
+    const inBoundsPct = Math.min(Math.round((inBoundsPixelCount / userPixelCount) * 100), 99);
+    const PASS_THRESHOLD = 80; // 80% in-bounds precision threshold as requested
 
-    // Combined score: 55% coverage of character + 45% precision (staying in bounds)
-    let finalScore = Math.min(Math.round(((coverage * 0.55) + (precision * 0.45)) * 100), 99);
-
-    const PASS_THRESHOLD = 65; // 65% threshold differentiates scribbles from accurate strokes
-
-    if (finalScore >= PASS_THRESHOLD) {
+    if (inBoundsPct >= PASS_THRESHOLD) {
         // SUCCESS
         box.className = "relative w-64 h-64 mx-auto mb-3 border-4 border-emerald-500 rounded-2xl overflow-hidden bg-emerald-50/30 transition-all duration-300 shadow-lg shadow-emerald-100";
         badge.className = "min-h-[28px] mb-3 text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-300 rounded-xl py-1 px-3 flex items-center justify-center fade-in";
-        badge.innerHTML = `🎉 ${finalScore}% Accuracy! Excellent drawing! ✨`;
+        badge.innerHTML = `🎉 ${inBoundsPct}% inside the stroke! Excellent! ✨`;
 
         playSpecificAudio(targetChar);
 
@@ -551,13 +531,7 @@ function validateDrawing() {
         // FAIL / TRY AGAIN
         box.className = "relative w-64 h-64 mx-auto mb-3 border-4 border-rose-400 rounded-2xl overflow-hidden bg-rose-50/30 transition-all duration-300";
         badge.className = "min-h-[28px] mb-3 text-xs font-bold bg-rose-50 text-rose-600 border border-rose-200 rounded-xl py-1 px-3 flex items-center justify-center fade-in";
-        if (precision < 0.45) {
-            badge.innerHTML = `✏️ ${finalScore}% Accuracy — Stay inside the letter outline!`;
-        } else if (coverage < 0.45) {
-            badge.innerHTML = `✏️ ${finalScore}% Accuracy — Cover all lines of the letter!`;
-        } else {
-            badge.innerHTML = `✏️ ${finalScore}% Accuracy — Try tracing more carefully!`;
-        }
+        badge.innerHTML = `✏️ ${inBoundsPct}% inside stroke — Keep your drawing inside the letter! (Target: 80%)`;
     }
 }
 
