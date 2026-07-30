@@ -462,84 +462,102 @@ function closeDrawModalOnBackdrop(e) {
 
 /**
  * Calculates accuracy between user drawing on canvas and stencil target character.
- * Uses offscreen canvas stencil rendering with stroke padding for human drawing tolerance.
+ * Uses dual-mask comparison (Core target + Wide Tolerance envelope) to accurately
+ * evaluate Coverage (Recall) and Precision (in-bounds constraint).
  */
 function validateDrawing() {
     const targetChar = document.getElementById('canvas-guide-char').innerText || 'ㄱ';
     const badge = document.getElementById('draw-feedback-badge');
     const box = document.getElementById('canvas-container-box');
 
-    // 1. Check if user drew anything
+    // 1. Get user drawing pixels
     const userImgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
     let userPixelCount = 0;
     for (let i = 3; i < userImgData.length; i += 4) {
-        if (userImgData[i] > 30) userPixelCount++;
+        if (userImgData[i] > 40) userPixelCount++;
     }
 
     if (userPixelCount < 60) {
         badge.className = "min-h-[28px] mb-3 text-xs font-bold bg-amber-50 text-amber-600 border border-amber-200 rounded-xl py-1 px-3 flex items-center justify-center";
-        badge.innerHTML = "✏️ Please draw over the letter guide first!";
+        badge.innerHTML = "✏️ Trace over the letter guide first!";
         return;
     }
 
-    // 2. Render target stencil on offscreen canvas
-    const offscreen = document.createElement('canvas');
-    offscreen.width = 256;
-    offscreen.height = 256;
-    const offCtx = offscreen.getContext('2d');
+    const fontSpec = '900 128px "Plus Jakarta Sans", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif';
 
-    offCtx.fillStyle = '#000000';
-    offCtx.strokeStyle = '#000000';
-    offCtx.lineWidth = 28; // Generous stroke tolerance width for human handwriting
-    offCtx.lineJoin = 'round';
-    offCtx.lineCap = 'round';
-    offCtx.font = '900 130px "Plus Jakarta Sans", sans-serif';
-    offCtx.textAlign = 'center';
-    offCtx.textBaseline = 'middle';
-    offCtx.fillText(targetChar, 128, 128);
-    offCtx.strokeText(targetChar, 128, 128);
+    // 2. Generate Core Mask (lineWidth = 14) for Coverage
+    const coreCanvas = document.createElement('canvas');
+    coreCanvas.width = 256; coreCanvas.height = 256;
+    const cCtx = coreCanvas.getContext('2d');
+    cCtx.font = fontSpec;
+    cCtx.textAlign = 'center';
+    cCtx.textBaseline = 'middle';
+    cCtx.fillStyle = '#000'; cCtx.strokeStyle = '#000';
+    cCtx.lineWidth = 14;
+    cCtx.lineCap = 'round'; cCtx.lineJoin = 'round';
+    cCtx.fillText(targetChar, 128, 128);
+    cCtx.strokeText(targetChar, 128, 128);
+    const coreData = cCtx.getImageData(0, 0, 256, 256).data;
 
-    const stencilData = offCtx.getImageData(0, 0, 256, 256).data;
+    // 3. Generate Tolerance Mask (lineWidth = 48) for In-Bounds Precision
+    const tolCanvas = document.createElement('canvas');
+    tolCanvas.width = 256; tolCanvas.height = 256;
+    const tCtx = tolCanvas.getContext('2d');
+    tCtx.font = fontSpec;
+    tCtx.textAlign = 'center';
+    tCtx.textBaseline = 'middle';
+    tCtx.fillStyle = '#000'; tCtx.strokeStyle = '#000';
+    tCtx.lineWidth = 48; // Generous envelope around character strokes
+    tCtx.lineCap = 'round'; tCtx.lineJoin = 'round';
+    tCtx.fillText(targetChar, 128, 128);
+    tCtx.strokeText(targetChar, 128, 128);
+    const tolData = tCtx.getImageData(0, 0, 256, 256).data;
 
-    // 3. Compare user drawing pixels with stencil pixels
-    let stencilPixelCount = 0;
-    let overlapCount = 0;
+    // 4. Pixel Overlap Analysis
+    let corePixelCount = 0;
+    let coreCoveredCount = 0;
+    let validUserPixelCount = 0;
 
-    for (let i = 3; i < stencilData.length; i += 4) {
-        const isStencil = stencilData[i] > 30;
-        const isUser = userImgData[i] > 30;
+    for (let i = 3; i < coreData.length; i += 4) {
+        const isCore = coreData[i] > 30;
+        const isTol = tolData[i] > 30;
+        const isUser = userImgData[i] > 40;
 
-        if (isStencil) stencilPixelCount++;
-        if (isStencil && isUser) overlapCount++;
+        if (isCore) corePixelCount++;
+        if (isCore && isUser) coreCoveredCount++;
+        if (isUser && isTol) validUserPixelCount++;
     }
 
-    const coverage = stencilPixelCount > 0 ? (overlapCount / stencilPixelCount) : 0;
-    const inBoundsRatio = userPixelCount > 0 ? (overlapCount / userPixelCount) : 0;
+    const coverage = corePixelCount > 0 ? (coreCoveredCount / corePixelCount) : 0;
+    const precision = userPixelCount > 0 ? (validUserPixelCount / userPixelCount) : 0;
 
-    // Weighted accuracy score: 75% coverage + 25% precision
-    let rawScore = (coverage * 0.75) + (Math.min(inBoundsRatio, 1) * 0.25);
-    let accuracyPct = Math.min(Math.round(rawScore * 135), 99); // Normalized scale
+    // Combined score: 55% coverage of character + 45% precision (staying in bounds)
+    let finalScore = Math.min(Math.round(((coverage * 0.55) + (precision * 0.45)) * 100), 99);
 
-    const PASS_THRESHOLD = 60; // 60% normalized threshold provides rewarding tolerance
+    const PASS_THRESHOLD = 65; // 65% threshold differentiates scribbles from accurate strokes
 
-    if (accuracyPct >= PASS_THRESHOLD) {
-        // SUCCESS!
+    if (finalScore >= PASS_THRESHOLD) {
+        // SUCCESS
         box.className = "relative w-64 h-64 mx-auto mb-3 border-4 border-emerald-500 rounded-2xl overflow-hidden bg-emerald-50/30 transition-all duration-300 shadow-lg shadow-emerald-100";
         badge.className = "min-h-[28px] mb-3 text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-300 rounded-xl py-1 px-3 flex items-center justify-center fade-in";
-        badge.innerHTML = `🎉 ${accuracyPct}% Accuracy! Excellent stroke! ✨`;
+        badge.innerHTML = `🎉 ${finalScore}% Accuracy! Excellent drawing! ✨`;
 
-        // Play audio pronunciation of the letter
         playSpecificAudio(targetChar);
 
-        // Auto close after success feedback animation
         setTimeout(() => {
             closeDrawModal();
         }, 1200);
     } else {
-        // TRY AGAIN
+        // FAIL / TRY AGAIN
         box.className = "relative w-64 h-64 mx-auto mb-3 border-4 border-rose-400 rounded-2xl overflow-hidden bg-rose-50/30 transition-all duration-300";
         badge.className = "min-h-[28px] mb-3 text-xs font-bold bg-rose-50 text-rose-600 border border-rose-200 rounded-xl py-1 px-3 flex items-center justify-center fade-in";
-        badge.innerHTML = `✏️ ${accuracyPct}% Accuracy — Try covering the guide character!`;
+        if (precision < 0.45) {
+            badge.innerHTML = `✏️ ${finalScore}% Accuracy — Stay inside the letter outline!`;
+        } else if (coverage < 0.45) {
+            badge.innerHTML = `✏️ ${finalScore}% Accuracy — Cover all lines of the letter!`;
+        } else {
+            badge.innerHTML = `✏️ ${finalScore}% Accuracy — Try tracing more carefully!`;
+        }
     }
 }
 
