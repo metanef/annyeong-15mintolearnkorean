@@ -64,7 +64,12 @@ function renderCurrentStep() {
         `;
 
         document.getElementById('intro-prev-btn').classList.toggle('hidden', currentFlowIndex === 0);
-        document.getElementById('intro-next-btn').innerText = "Start Section →";
+        const nextStep = flowSteps[currentFlowIndex + 1];
+        if (nextStep && nextStep.type === 'lesson') {
+            document.getElementById('intro-next-btn').innerText = "Start Section →";
+        } else {
+            document.getElementById('intro-next-btn').innerText = "Next →";
+        }
     } else if (step.type === 'lesson') {
         document.getElementById('intro-screen').classList.add('hidden');
         document.getElementById('lesson-screen').classList.remove('hidden');
