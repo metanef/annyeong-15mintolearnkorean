@@ -482,7 +482,7 @@ function validateDrawing() {
         return;
     }
 
-    // 2. Render Stencil Outline Envelope on Offscreen Canvas (lineWidth = 36)
+    // 2. Render Stencil Outline Envelope on Offscreen Canvas (matching letter stroke width = 18)
     const stencilCanvas = document.createElement('canvas');
     stencilCanvas.width = 256;
     stencilCanvas.height = 256;
@@ -492,7 +492,7 @@ function validateDrawing() {
     sCtx.textBaseline = 'middle';
     sCtx.fillStyle = '#000';
     sCtx.strokeStyle = '#000';
-    sCtx.lineWidth = 36; // Stencil stroke envelope width
+    sCtx.lineWidth = 18; // Precise letter stroke width
     sCtx.lineCap = 'round';
     sCtx.lineJoin = 'round';
     sCtx.fillText(targetChar, 128, 128);
@@ -501,15 +501,25 @@ function validateDrawing() {
     const stencilData = sCtx.getImageData(0, 0, 256, 256).data;
 
     // 3. Count how many of the user's drawn pixels landed inside the stencil outline
+    let userPixelCount = 0;
     let inBoundsPixelCount = 0;
 
     for (let i = 3; i < userImgData.length; i += 4) {
         const isUser = userImgData[i] > 40;
         const isInsideStencil = stencilData[i] > 30;
 
-        if (isUser && isInsideStencil) {
-            inBoundsPixelCount++;
+        if (isUser) {
+            userPixelCount++;
+            if (isInsideStencil) {
+                inBoundsPixelCount++;
+            }
         }
+    }
+
+    if (userPixelCount < 50) {
+        badge.className = "min-h-[28px] mb-3 text-xs font-bold bg-amber-50 text-amber-600 border border-amber-200 rounded-xl py-1 px-3 flex items-center justify-center";
+        badge.innerHTML = "✏️ Draw inside the letter guide first!";
+        return;
     }
 
     // 4. In-Bounds Accuracy Percentage (Precision)
