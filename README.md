@@ -99,7 +99,12 @@ This application is 100% compatible and ready for instant deployment on static h
 
 ## 📌 TODO
 
-### ✅ Done (Validated in v1.2.0)
+### ✅ Done (Validated in v1.3.0)
+- [x] Unified Previous & Next Navigation System across all lesson cards & intro slides
+- [x] Modern Ionicons integration (`chevron-back-outline` & `chevron-forward-outline`)
+- [x] Progressive left-to-right gradient text color fill animation on desktop card hover
+- [x] 0.5s ease-out smooth transition on home card tiles, borders, shadows, and icon badges
+- [x] Responsive hover animation isolation (Desktop hoverable screens, native styling preserved on Mobile)
 - [x] Modular Architecture (HTML/CSS/JS)
 - [x] Interactive Review Table (Auto-evaluation, Audio, Drawing)
 - [x] "Pop-Culture" Training Mode (Ryan Estrada method)
@@ -113,11 +118,11 @@ This application is 100% compatible and ready for instant deployment on static h
 - [x] Harmonized color themes for module cards (Red for History, Purple for Learning)
 - [x] Dual-canvas stroke accuracy validation (80% corridor threshold & celebratory feedback)
 - [x] 100% offline native Korean MP3 audio for all 57 terms, organized into clean subfolders (`consonant`, `vowels`, `double_consonant`, `compound_vowels`, `training`)
-- [x] Dynamic action button labels (`Next →` vs `Start Section →`) and bug fixes for card content updates
+- [x] Dynamic action button labels (`Next` vs `Start Section`) and bug fixes for card content updates
 
 ### ⏳ Future Roadmap (To Do)
 
-- [ ] **Dynamic Card Micro-Animations:** Add CSS/JS 3D flip, smooth slide transitions, and interactive hover animations for lesson cards.
+- [ ] **Dynamic Card Micro-Animations:** Add CSS/JS 3D flip and smooth slide transitions for lesson cards.
 - [ ] **3 Specialized Training Modes:**
   - ⚡ **Speed Recognition Quiz:** Fast-paced multiple choice matching for consonants & vowels
   - ✍️ **Guided Stroke Challenge:** Interactive drawing mode with stroke matching with the real character
