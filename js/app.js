@@ -461,8 +461,9 @@ function closeDrawModalOnBackdrop(e) {
 }
 
 /**
- * Calculates accuracy based on In-Bounds Precision:
- * Validates that at least 80% of the user's drawn stroke pixels fall inside the stencil outline path.
+ * Calculates stroke precision and coverage using strokeText outline corridor ONLY.
+ * Removes fillText to ensure hollow letter centers (ㅇ, ㅁ, ㅂ) and background
+ * are not falsely counted as stencil area.
  */
 function validateDrawing() {
     const targetChar = document.getElementById('canvas-guide-char').innerText || 'ㄱ';
@@ -476,13 +477,14 @@ function validateDrawing() {
         if (userImgData[i] > 40) userPixelCount++;
     }
 
-    if (userPixelCount < 60) {
+    if (userPixelCount < 80) {
         badge.className = "min-h-[28px] mb-3 text-xs font-bold bg-amber-50 text-amber-600 border border-amber-200 rounded-xl py-1 px-3 flex items-center justify-center";
-        badge.innerHTML = "✏️ Draw inside the letter guide first!";
+        badge.innerHTML = "✏️ Trace the letter guide first!";
         return;
     }
 
-    // 2. Render Stencil Outline Envelope on Offscreen Canvas (matching letter stroke width = 18)
+    // 2. Render ONLY the stroke outline corridor on Offscreen Canvas (lineWidth = 24)
+    // NOTE: We do NOT use fillText, so hollow letter centers (ㅇ, ㅁ, ㅂ) remain 100% empty!
     const stencilCanvas = document.createElement('canvas');
     stencilCanvas.width = 256;
     stencilCanvas.height = 256;
@@ -490,47 +492,44 @@ function validateDrawing() {
     sCtx.font = '900 128px "Plus Jakarta Sans", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif';
     sCtx.textAlign = 'center';
     sCtx.textBaseline = 'middle';
-    sCtx.fillStyle = '#000';
-    sCtx.strokeStyle = '#000';
-    sCtx.lineWidth = 18; // Precise letter stroke width
+    sCtx.strokeStyle = '#000000';
+    sCtx.lineWidth = 24; // Tight 24px stroke corridor around character lines
     sCtx.lineCap = 'round';
     sCtx.lineJoin = 'round';
-    sCtx.fillText(targetChar, 128, 128);
     sCtx.strokeText(targetChar, 128, 128);
 
     const stencilData = sCtx.getImageData(0, 0, 256, 256).data;
 
-    // 3. Count how many of the user's drawn pixels landed inside the stencil outline
-    let userPixelCount = 0;
+    // 3. Count stencil pixels and user overlap
+    let stencilPixelCount = 0;
     let inBoundsPixelCount = 0;
+
+    for (let i = 3; i < stencilData.length; i += 4) {
+        if (stencilData[i] > 30) stencilPixelCount++;
+    }
 
     for (let i = 3; i < userImgData.length; i += 4) {
         const isUser = userImgData[i] > 40;
         const isInsideStencil = stencilData[i] > 30;
 
-        if (isUser) {
-            userPixelCount++;
-            if (isInsideStencil) {
-                inBoundsPixelCount++;
-            }
+        if (isUser && isInsideStencil) {
+            inBoundsPixelCount++;
         }
     }
 
-    if (userPixelCount < 50) {
-        badge.className = "min-h-[28px] mb-3 text-xs font-bold bg-amber-50 text-amber-600 border border-amber-200 rounded-xl py-1 px-3 flex items-center justify-center";
-        badge.innerHTML = "✏️ Draw inside the letter guide first!";
-        return;
-    }
+    // Precision: % of user's stroke that is on the letter path
+    const precisionPct = Math.min(Math.round((inBoundsPixelCount / userPixelCount) * 100), 99);
+    // Coverage: % of letter path that user covered
+    const coveragePct = stencilPixelCount > 0 ? (inBoundsPixelCount / stencilPixelCount) : 0;
 
-    // 4. In-Bounds Accuracy Percentage (Precision)
-    const inBoundsPct = Math.min(Math.round((inBoundsPixelCount / userPixelCount) * 100), 99);
-    const PASS_THRESHOLD = 80; // 80% in-bounds precision threshold as requested
+    const MIN_PRECISION = 75; // At least 75% of user's stroke must stay on the letter path
+    const MIN_COVERAGE = 0.20; // Must cover at least 20% of the character stroke
 
-    if (inBoundsPct >= PASS_THRESHOLD) {
+    if (precisionPct >= MIN_PRECISION && coveragePct >= MIN_COVERAGE) {
         // SUCCESS
         box.className = "relative w-64 h-64 mx-auto mb-3 border-4 border-emerald-500 rounded-2xl overflow-hidden bg-emerald-50/30 transition-all duration-300 shadow-lg shadow-emerald-100";
         badge.className = "min-h-[28px] mb-3 text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-300 rounded-xl py-1 px-3 flex items-center justify-center fade-in";
-        badge.innerHTML = `🎉 ${inBoundsPct}% inside the stroke! Excellent! ✨`;
+        badge.innerHTML = `🎉 ${precisionPct}% stroke accuracy! Excellent! ✨`;
 
         playSpecificAudio(targetChar);
 
@@ -541,7 +540,12 @@ function validateDrawing() {
         // FAIL / TRY AGAIN
         box.className = "relative w-64 h-64 mx-auto mb-3 border-4 border-rose-400 rounded-2xl overflow-hidden bg-rose-50/30 transition-all duration-300";
         badge.className = "min-h-[28px] mb-3 text-xs font-bold bg-rose-50 text-rose-600 border border-rose-200 rounded-xl py-1 px-3 flex items-center justify-center fade-in";
-        badge.innerHTML = `✏️ ${inBoundsPct}% inside stroke — Keep your drawing inside the letter! (Target: 80%)`;
+
+        if (coveragePct < MIN_COVERAGE) {
+            badge.innerHTML = `✏️ Trace more of the letter lines!`;
+        } else {
+            badge.innerHTML = `✏️ ${precisionPct}% on stroke — ${100 - precisionPct}% went outside! (Need 75%)`;
+        }
     }
 }
 
