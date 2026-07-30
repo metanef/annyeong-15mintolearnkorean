@@ -217,7 +217,84 @@ function loadReviewTable() {
     table.innerHTML = html;
 }
 
+const AUDIO_MAP = {
+    // Consonants (c01 - c14)
+    "ㄱ": "c01-gieuk.mp3",
+    "ㄴ": "c02-nieun.mp3",
+    "ㄷ": "c03-dieut.mp3",
+    "ㄹ": "c04-rieul.mp3",
+    "ㅁ": "c05-mieum.mp3",
+    "ㅂ": "c06-bieup.mp3",
+    "ㅅ": "c07-sieut.mp3",
+    "ㅇ": "c08-ieung.mp3",
+    "ㅈ": "c09-jieut.mp3",
+    "ㅊ": "c10-chieut.mp3",
+    "ㅋ": "c11-kieuk.mp3",
+    "ㅌ": "c12-tieut.mp3",
+    "ㅍ": "c13-pieup.mp3",
+    "ㅎ": "c14-hieut.mp3",
+
+    // Vowels (v01 - v10)
+    "ㅣ": "v01-i.mp3",
+    "ㅏ": "v02-a.mp3",
+    "ㅑ": "v03-ya.mp3",
+    "ㅓ": "v04-eo.mp3",
+    "ㅕ": "v05-yeo.mp3",
+    "ㅡ": "v06-eu.mp3",
+    "ㅗ": "v07-o.mp3",
+    "ㅛ": "v08-yo.mp3",
+    "ㅜ": "v09-u.mp3",
+    "ㅠ": "v10-yu.mp3",
+
+    // Double Consonants (dc01 - dc05)
+    "ㄲ": "dc01-ssang-gieuk.mp3",
+    "ㄸ": "dc02-ssang-dieut.mp3",
+    "ㅃ": "dc03-ssang-bieup.mp3",
+    "ㅆ": "dc04-ssang-sieut.mp3",
+    "ㅉ": "dc05-ssang-jieut.mp3",
+
+    // Compound Vowels (cv01 - cv11)
+    "ㅐ": "cv01-ae.mp3",
+    "ㅒ": "cv02-yae.mp3",
+    "ㅔ": "cv03-e.mp3",
+    "ㅖ": "cv04-ye.mp3",
+    "ㅘ": "cv05-wa.mp3",
+    "ㅙ": "cv06-wae.mp3",
+    "ㅚ": "cv07-oe.mp3",
+    "ㅝ": "cv08-weo.mp3",
+    "ㅞ": "cv09-we.mp3",
+    "ㅟ": "cv10-wi.mp3",
+    "ㅢ": "cv11-ui.mp3",
+
+    // Pop-Culture Training Words (t01 - t15)
+    "배트맨": "t01-batman.mp3",
+    "마리오": "t02-mario.mp3",
+    "해리 포터": "t03-harry-potter.mp3",
+    "타이타닉": "t04-titanic.mp3",
+    "토토로": "t05-totoro.mp3",
+    "슈퍼맨": "t06-superman.mp3",
+    "피카츄": "t07-pikachu.mp3",
+    "디즈니": "t08-disney.mp3",
+    "스타워즈": "t09-star-wars.mp3",
+    "셜록": "t10-sherlock.mp3",
+    "스파이더맨": "t11-spiderman.mp3",
+    "매트릭스": "t12-matrix.mp3",
+    "스누피": "t13-snoopy.mp3",
+    "호머 심슨": "t14-homer-simpson.mp3",
+    "아바타": "t15-avatar.mp3"
+};
+
 let currentAudioPlayer = null;
+
+function fallbackSpeech(spokenText) {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(spokenText);
+        utterance.lang = 'ko-KR';
+        utterance.rate = 0.7;
+        window.speechSynthesis.speak(utterance);
+    }
+}
 
 function playSpecificAudio(spokenText) {
     if (!spokenText) return;
@@ -227,28 +304,23 @@ function playSpecificAudio(spokenText) {
             currentAudioPlayer.currentTime = 0;
         }
 
-        // Convert spoken text to hex filename for 100% OS cross-platform asset safety
-        const encoder = new TextEncoder();
-        const bytes = encoder.encode(spokenText);
-        const hex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
-        const audioPath = `assets/audio/${hex}.mp3`;
-
-        currentAudioPlayer = new Audio(audioPath);
-        const playPromise = currentAudioPlayer.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(err => {
-                console.warn('Local MP3 playback warning, falling back to Web Speech API:', err);
-                if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel();
-                    const utterance = new SpeechSynthesisUtterance(spokenText);
-                    utterance.lang = 'ko-KR';
-                    utterance.rate = 0.7;
-                    window.speechSynthesis.speak(utterance);
-                }
-            });
+        const filename = AUDIO_MAP[spokenText];
+        if (filename) {
+            const audioPath = `assets/audio/${filename}`;
+            currentAudioPlayer = new Audio(audioPath);
+            const playPromise = currentAudioPlayer.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(err => {
+                    console.warn('Local MP3 playback warning, falling back to Web Speech API:', err);
+                    fallbackSpeech(spokenText);
+                });
+            }
+        } else {
+            fallbackSpeech(spokenText);
         }
     } catch (e) {
         console.error('Audio playback error:', e);
+        fallbackSpeech(spokenText);
     }
 }
 
