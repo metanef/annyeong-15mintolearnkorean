@@ -54,11 +54,13 @@ function renderCurrentStep() {
         document.getElementById('progress-container').classList.add('hidden');
 
         document.getElementById('intro-content').innerHTML = `
-            <div class="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl mx-auto flex items-center justify-center text-3xl font-black mb-6">
+            <div class="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-3xl mx-auto flex items-center justify-center text-4xl font-black mb-6">
                 ${step.emoji}
             </div>
-            <h2 class="text-2xl font-extrabold text-slate-900 mb-3">${step.title}</h2>
-            <p class="text-slate-500 text-sm md:text-base leading-relaxed">${step.text}</p>
+            <h2 class="text-2xl md:text-3xl font-black text-slate-900 mb-4">${step.title}</h2>
+            <div class="bg-white rounded-2xl p-6 max-w-lg mx-auto text-slate-600 text-sm md:text-base leading-relaxed">
+                ${step.text}
+            </div>
         `;
 
         document.getElementById('intro-prev-btn').classList.toggle('hidden', currentFlowIndex === 0);
@@ -157,7 +159,7 @@ function toggleEvalMode() {
     const table = document.getElementById('review-table');
     const toggleBg = document.getElementById('eval-toggle-bg');
     const toggleDot = document.getElementById('eval-toggle-dot');
-    
+
     if (isChecked) {
         table.classList.add('self-eval-active');
         toggleBg.classList.replace('bg-slate-200', 'bg-emerald-500');
@@ -198,7 +200,7 @@ function loadReviewTable() {
                 // Escape item properties for safe HTML injection
                 const spokenArgs = `'${item.spoken}'`;
                 const charArgs = `'${item.char}'`;
-                
+
                 html += `
                     <tr class="hover:bg-slate-50 transition-colors">
                         <td class="p-4">
@@ -261,7 +263,7 @@ function loadTrainingStep() {
 
     const ex = trainingExercises[currentTrainingIndex];
     let targetHtml = `<span class="text-5xl font-black text-amber-600 tracking-wider bg-amber-50 px-6 py-4 rounded-2xl inline-block border border-amber-100">${ex.target}</span>`;
-    
+
     if (ex.type === 'audio-to-hangul') {
         targetHtml = `
             <button onclick="playSpecificAudio('${ex.spoken}')" class="text-5xl font-black text-amber-600 bg-amber-50 px-8 py-6 rounded-3xl inline-block border-4 border-amber-200 hover:bg-amber-100 hover:scale-105 transition-all shadow-lg cursor-pointer focus:outline-none">
@@ -299,11 +301,11 @@ function checkTrainingAnswer(selected, ex, btnElem) {
         }
         btnElem.classList.remove('bg-slate-50', 'hover:bg-amber-50', 'text-slate-800', 'border-slate-200');
         btnElem.classList.add('bg-emerald-500', 'text-white', 'border-emerald-600');
-        
+
         feedback.className = "text-sm font-semibold h-6 my-3 text-emerald-600";
         feedback.innerText = "Correct! 🎉";
         nextBtn.classList.remove('hidden');
-        
+
         // Auto play audio for correct answer if it's hangul
         if (ex.type === 'text-to-hangul' || ex.type === 'audio-to-hangul') {
             playSpecificAudio(ex.answer);
@@ -317,7 +319,7 @@ function checkTrainingAnswer(selected, ex, btnElem) {
         btnElem.classList.remove('bg-slate-50', 'hover:bg-amber-50');
         btnElem.classList.add('bg-rose-100', 'text-rose-600', 'border-rose-300', 'opacity-50');
         btnElem.disabled = true;
-        
+
         feedback.className = "text-sm font-semibold h-6 my-3 text-rose-500";
         feedback.innerText = "Incorrect. Try again!";
     }
@@ -337,7 +339,7 @@ function startHistory() {
     document.getElementById('history-container').classList.remove('hidden');
     document.getElementById('nav-controls').classList.remove('hidden');
     document.getElementById('progress-container').classList.add('hidden');
-    
+
     currentHistoryIndex = 0;
     renderHistoryStep();
 }
@@ -424,10 +426,10 @@ canvas.addEventListener('touchend', finishedPosition);
 canvas.addEventListener('touchmove', draw);
 
 function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
-function openDrawModal(charTarget = null) { 
-    clearCanvas(); 
-    if(charTarget) document.getElementById('canvas-guide-char').innerText = charTarget;
-    document.getElementById('draw-modal').classList.remove('hidden'); 
+function openDrawModal(charTarget = null) {
+    clearCanvas();
+    if (charTarget) document.getElementById('canvas-guide-char').innerText = charTarget;
+    document.getElementById('draw-modal').classList.remove('hidden');
 }
 function closeDrawModal() { document.getElementById('draw-modal').classList.add('hidden'); }
 

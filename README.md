@@ -6,7 +6,7 @@
 
   <p>
     <a href="https://metanef.github.io/annyeong-15mintolearnkorean/"><img src="https://img.shields.io/badge/LIVE%20DEMO-PLAY%20ONLINE-2ecc71?style=for-the-badge" alt="Live Demo" /></a>
-    <img src="https://img.shields.io/badge/VERSION-1.0.0-9b59b6?style=for-the-badge" alt="Version" />
+    <img src="https://img.shields.io/badge/VERSION-1.1.0-9b59b6?style=for-the-badge" alt="Version" />
   </p>
 
   <p>
@@ -95,7 +95,10 @@ This application is 100% compatible and ready for instant deployment on static h
 - [x] Responsive layout with single-line home navigation bar
 - [x] Ryan Estrada's "Kick It Up a Notch!" aspiration rule slide
 - [x] Slide counters for all lesson card series (1/14, 1/10, etc.)
-- [x] Korean Flag SVG Favicon
+- [x] Square Korean Flag SVG Favicon
+- [x] Unified card format & height across slides and lesson cards (no layout jumps)
+- [x] Footer links to Ryan Estrada's comic and author profile
+- [x] Harmonized color themes for module cards (Red for History, Purple for Learning)
 
 ### ⏳ To Do
 

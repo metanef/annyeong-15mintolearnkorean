@@ -9,20 +9,20 @@ const flowSteps = [
     { type: 'slide', title: "Consonants", emoji: "📝", text: "Learn the 14 basic consonants with their official names and pronunciations." },
     {
         type: 'lesson', group: 'consonants', items: [
-            { type: "Consonant", char: "ㄱ", name: "gieuk", sound: "g", icon: "🔫", mnemonic: "Basic consonant <b>gieuk</b>, pronounced <b>g</b> like a <b><span class=\"text-indigo-500\">G</span>un</b>.", spoken: "ㄱ" },
-            { type: "Consonant", char: "ㄴ", name: "nieun", sound: "n", icon: "👃", mnemonic: "Basic consonant <b>nieun</b>, pronounced <b>n</b> like a <b><span class=\"text-indigo-500\">N</span>ose</b>.", spoken: "ㄴ" },
-            { type: "Consonant", char: "ㄷ", name: "dieut", sound: "d", icon: "🚪", mnemonic: "Basic consonant <b>dieut</b>, pronounced <b>d</b> like a <b><span class=\"text-indigo-500\">D</span>oor</b>.", spoken: "ㄷ" },
-            { type: "Consonant", char: "ㄹ", name: "rieul", sound: "r (before vowel) / l", icon: "🐍", mnemonic: "Basic consonant <b>rieul</b>, pronounced <b>r / l</b> like a <b><span class=\"text-indigo-500\">R</span>attlesnake</b>.", spoken: "ㄹ" },
-            { type: "Consonant", char: "ㅁ", name: "mieum", sound: "m", icon: "🗺️", mnemonic: "Basic consonant <b>mieum</b>, pronounced <b>m</b> like a <b><span class=\"text-indigo-500\">M</span>ap</b>.", spoken: "ㅁ" },
-            { type: "Consonant", char: "ㅂ", name: "bieup", sound: "b", icon: "🪣", mnemonic: "Basic consonant <b>bieup</b>, pronounced <b>b</b> like a <b><span class=\"text-indigo-500\">B</span>ucket</b>.", spoken: "ㅂ" },
-            { type: "Consonant", char: "ㅅ", name: "sieut", sound: "s", icon: "⛰️", mnemonic: "Basic consonant <b>sieut</b>, pronounced <b>s</b> like a <b><span class=\"text-indigo-500\">S</span>ummit</b>.", spoken: "ㅅ" },
-            { type: "Consonant", char: "ㅇ", name: "ieung", sound: "ng", icon: "⭕", mnemonic: "Basic consonant <b>ieung</b>, like a <b>Nothi<span class=\"text-indigo-500\">ng</span></b> (no sound) or <b><span class=\"text-indigo-500\">ng</span></b> at the end.", spoken: "ㅇ" },
-            { type: "Consonant", char: "ㅈ", name: "jieut", sound: "j", icon: "👖", mnemonic: "Basic consonant <b>jieut</b>, pronounced <b>j</b> like <b><span class=\"text-indigo-500\">J</span>eans</b>.", spoken: "ㅈ" },
-            { type: "Consonant", char: "ㅊ", name: "chieut", sound: "ch", icon: "🐓", mnemonic: "Basic consonant <b>chieut</b>, pronounced <b>ch</b> like a <b><span class=\"text-indigo-500\">Ch</span>icken</b>.", spoken: "ㅊ" },
-            { type: "Consonant", char: "ㅋ", name: "kieuk", sound: "k", icon: "🔑", mnemonic: "Basic consonant <b>kieuk</b>, pronounced <b>k</b> like a <b><span class=\"text-indigo-500\">K</span>ey</b>.", spoken: "ㅋ" },
-            { type: "Consonant", char: "ㅌ", name: "tieut", sound: "t", icon: "🔭", mnemonic: "Basic consonant <b>tieut</b>, pronounced <b>t</b> like a <b><span class=\"text-indigo-500\">T</span>elescope</b>.", spoken: "ㅌ" },
-            { type: "Consonant", char: "ㅍ", name: "pieup", sound: "p", icon: "🏛️", mnemonic: "Basic consonant <b>pieup</b>, pronounced <b>p</b> like a <b><span class=\"text-indigo-500\">P</span>illar</b>.", spoken: "ㅍ" },
-            { type: "Consonant", char: "ㅎ", name: "hieut", sound: "h", icon: "👒", mnemonic: "Basic consonant <b>hieut</b>, pronounced <b>h</b> like a <b><span class=\"text-indigo-500\">H</span>at</b>.", spoken: "ㅎ" }
+            { type: "Consonant", char: "ㄱ", name: "gieuk", sound: "g", icon: "🔫", mnemonic: "Pronounced <b>g</b> like a <b><span class=\"text-indigo-500\">G</span>un</b>.", spoken: "ㄱ" },
+            { type: "Consonant", char: "ㄴ", name: "nieun", sound: "n", icon: "👃", mnemonic: "Pronounced <b>n</b> like a <b><span class=\"text-indigo-500\">N</span>ose</b>.", spoken: "ㄴ" },
+            { type: "Consonant", char: "ㄷ", name: "dieut", sound: "d", icon: "🚪", mnemonic: "Pronounced <b>d</b> like a <b><span class=\"text-indigo-500\">D</span>oor</b>.", spoken: "ㄷ" },
+            { type: "Consonant", char: "ㄹ", name: "rieul", sound: "r (before vowel) / l", icon: "🐍", mnemonic: "Pronounced <b>r</b> before a vowel or <b>l</b> like a <b><span class=\"text-indigo-500\">R</span>attlesnake</b>.", spoken: "ㄹ" },
+            { type: "Consonant", char: "ㅁ", name: "mieum", sound: "m", icon: "🗺️", mnemonic: "Pronounced <b>m</b> like a <b><span class=\"text-indigo-500\">M</span>ap</b>.", spoken: "ㅁ" },
+            { type: "Consonant", char: "ㅂ", name: "bieup", sound: "b", icon: "🪣", mnemonic: "Pronounced <b>b</b> like a <b><span class=\"text-indigo-500\">B</span>ucket</b>.", spoken: "ㅂ" },
+            { type: "Consonant", char: "ㅅ", name: "sieut", sound: "s", icon: "⛰️", mnemonic: "Pronounced <b>s</b> like a <b><span class=\"text-indigo-500\">S</span>ummit</b>.", spoken: "ㅅ" },
+            { type: "Consonant", char: "ㅇ", name: "ieung", sound: "ng", icon: "⭕", mnemonic: "<b>Nothi<span class=\"text-indigo-500\">ng</span></b> (no sound) or <b><span class=\"text-indigo-500\">ng</span></b> at the end.", spoken: "ㅇ" },
+            { type: "Consonant", char: "ㅈ", name: "jieut", sound: "j", icon: "👖", mnemonic: "Pronounced <b>j</b> like <b><span class=\"text-indigo-500\">J</span>eans</b>.", spoken: "ㅈ" },
+            { type: "Consonant", char: "ㅊ", name: "chieut", sound: "ch", icon: "🐓", mnemonic: "Pronounced <b>ch</b> like a <b><span class=\"text-indigo-500\">Ch</span>icken</b>.", spoken: "ㅊ" },
+            { type: "Consonant", char: "ㅋ", name: "kieuk", sound: "k", icon: "🔑", mnemonic: "Pronounced <b>k</b> like a <b><span class=\"text-indigo-500\">K</span>ey</b>.", spoken: "ㅋ" },
+            { type: "Consonant", char: "ㅌ", name: "tieut", sound: "t", icon: "🔭", mnemonic: "Pronounced <b>t</b> like a <b><span class=\"text-indigo-500\">T</span>elescope</b>.", spoken: "ㅌ" },
+            { type: "Consonant", char: "ㅍ", name: "pieup", sound: "p", icon: "🏛️", mnemonic: "Pronounced <b>p</b> like a <b><span class=\"text-indigo-500\">P</span>illar</b>.", spoken: "ㅍ" },
+            { type: "Consonant", char: "ㅎ", name: "hieut", sound: "h", icon: "👒", mnemonic: "Pronounced <b>h</b> like a <b><span class=\"text-indigo-500\">H</span>at</b>.", spoken: "ㅎ" }
         ]
     },
 
@@ -77,11 +77,11 @@ const flowSteps = [
     },
 
     // The Notch Rule Slide
-    { 
-        type: 'slide', 
-        title: "Kick It Up a Notch!", 
-        emoji: "💡", 
-        text: "If you add a little notch to the letters, you can change the sound they make!<br><br>• <b>ㄱ (G)</b> becomes <b>ㅋ (K)</b><br>• <b>ㄷ (D)</b> becomes <b>ㅌ (T)</b><br>• <b>ㅇ (Nothing)</b> becomes <b>ㅎ (H)</b><br>• <b>ㅅ (S)</b> becomes <b>ㅈ (J)</b>, add one more notch, and you get <b>ㅊ (CH)</b>" 
+    {
+        type: 'slide',
+        title: "Kick It Up a Notch!",
+        emoji: "💡",
+        text: "If you add a little notch to the letters, you can change the sound they make!<br><br>• <b>ㄱ (G)</b> becomes <b>ㅋ (K)</b><br>• <b>ㄷ (D)</b> becomes <b>ㅌ (T)</b><br>• <b>ㅇ (Nothing)</b> becomes <b>ㅎ (H)</b><br>• <b>ㅅ (S)</b> becomes <b>ㅈ (J)</b>, add one more notch, and you get <b>ㅊ (CH)</b>"
     }
 ];
 
