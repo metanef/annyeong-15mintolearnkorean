@@ -188,10 +188,16 @@
                         </button>
                     </div>
 
-                    <button onclick="nextLessonStep()"
-                        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-2xl shadow-lg shadow-indigo-200 transition-all transform active:scale-95 cursor-pointer">
-                        Next Step →
-                    </button>
+                    <div class="flex justify-between items-center w-full">
+                        <button id="lesson-prev-btn" onclick="prevLessonStep()"
+                            class="px-5 py-3 rounded-2xl border border-slate-200 text-slate-600 font-bold hover:bg-slate-50 cursor-pointer hidden transition-all">
+                            ← Previous
+                        </button>
+                        <button id="lesson-next-btn" onclick="nextLessonStep()"
+                            class="ml-auto bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-8 rounded-2xl shadow-lg shadow-indigo-200 transition-all transform active:scale-95 cursor-pointer">
+                            Next →
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -358,8 +364,8 @@
     <!-- Footer -->
     <footer class="text-center py-4 text-xs font-medium text-slate-400">
         Based on official Korean Jamo table & <a href="https://ryanestrada.com/learntoreadkoreanin15minutes/"
-            target="_blank" rel="noopener noreferrer" class="hover:text-indigo-600 transition-colors">Ryan Estrada's
-            method</a> • Design <a href="https://github.com/metanef" target="_blank" rel="noopener noreferrer"
+            target="_blank" rel="noopener noreferrer" class="hover:text-indigo-600 transition-colors">Ryan Estrada</a>'s
+        method • Design <a href="https://github.com/metanef" target="_blank" rel="noopener noreferrer"
             class="hover:text-indigo-600 transition-colors">metanef</a> ©<span id="current-year"></span>
     </footer>
 

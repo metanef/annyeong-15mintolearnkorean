@@ -92,6 +92,11 @@ function loadLessonItem() {
         document.getElementById('char-sound-label').innerText = "Pronunciation : " + item.sound;
         document.getElementById('char-mnemonic').innerHTML = item.mnemonic;
 
+        const prevBtn = document.getElementById('lesson-prev-btn');
+        if (prevBtn) {
+            prevBtn.classList.toggle('hidden', currentFlowIndex === 0 && currentLessonSubIndex === 0);
+        }
+
         updateProgressGlobal();
         // NOTE: Audio is intentionally NOT played automatically here on card load.
         // It plays ONLY when the user clicks the listen button or interacts!
@@ -124,6 +129,26 @@ function prevSlide() {
 function nextLessonStep() {
     currentLessonSubIndex++;
     loadLessonItem();
+}
+
+function prevLessonStep() {
+    if (currentLessonSubIndex > 0) {
+        currentLessonSubIndex--;
+        loadLessonItem();
+    } else if (currentFlowIndex > 0) {
+        currentFlowIndex--;
+        const prevStep = flowSteps[currentFlowIndex];
+        if (prevStep.type === 'lesson') {
+            document.getElementById('intro-screen').classList.add('hidden');
+            document.getElementById('lesson-screen').classList.remove('hidden');
+            document.getElementById('progress-container').classList.remove('hidden');
+            currentLessonList = prevStep.items;
+            currentLessonSubIndex = prevStep.items.length - 1;
+            loadLessonItem();
+        } else {
+            renderCurrentStep();
+        }
+    }
 }
 
 function updateProgressGlobal() {
