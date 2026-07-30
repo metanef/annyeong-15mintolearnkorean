@@ -89,7 +89,8 @@ function loadLessonItem() {
         document.getElementById('char-mnemonic').innerHTML = item.mnemonic;
 
         updateProgressGlobal();
-        playCurrentAudioItem(item);
+        // NOTE: Audio is intentionally NOT played automatically here on card load.
+        // It plays ONLY when the user clicks the listen button or interacts!
     } else {
         currentFlowIndex++;
         if (currentFlowIndex < flowSteps.length) {
@@ -128,21 +129,8 @@ function updateProgressGlobal() {
 }
 
 function playCurrentAudio() {
-    if (currentLessonList[currentLessonSubIndex]) {
-        playCurrentAudioItem(currentLessonList[currentLessonSubIndex]);
-    }
-}
-
-function playCurrentAudioItem(item) {
-    if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(item.spoken);
-        utterance.lang = 'ko-KR';
-        utterance.rate = 0.7;
-        const voices = window.speechSynthesis.getVoices();
-        const koreanVoice = voices.find(v => v.lang.includes('ko'));
-        if (koreanVoice) utterance.voice = koreanVoice;
-        window.speechSynthesis.speak(utterance);
+    if (currentLessonList && currentLessonList[currentLessonSubIndex]) {
+        playSpecificAudio(currentLessonList[currentLessonSubIndex].spoken);
     }
 }
 
@@ -225,16 +213,38 @@ function loadReviewTable() {
     table.innerHTML = html;
 }
 
+let currentAudioPlayer = null;
+
 function playSpecificAudio(spokenText) {
-    if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(spokenText);
-        utterance.lang = 'ko-KR';
-        utterance.rate = 0.7;
-        const voices = window.speechSynthesis.getVoices();
-        const koreanVoice = voices.find(v => v.lang.includes('ko'));
-        if (koreanVoice) utterance.voice = koreanVoice;
-        window.speechSynthesis.speak(utterance);
+    if (!spokenText) return;
+    try {
+        if (currentAudioPlayer) {
+            currentAudioPlayer.pause();
+            currentAudioPlayer.currentTime = 0;
+        }
+
+        // Convert spoken text to hex filename for 100% OS cross-platform asset safety
+        const encoder = new TextEncoder();
+        const bytes = encoder.encode(spokenText);
+        const hex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+        const audioPath = `assets/audio/${hex}.mp3`;
+
+        currentAudioPlayer = new Audio(audioPath);
+        const playPromise = currentAudioPlayer.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(err => {
+                console.warn('Local MP3 playback warning, falling back to Web Speech API:', err);
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(spokenText);
+                    utterance.lang = 'ko-KR';
+                    utterance.rate = 0.7;
+                    window.speechSynthesis.speak(utterance);
+                }
+            });
+        }
+    } catch (e) {
+        console.error('Audio playback error:', e);
     }
 }
 

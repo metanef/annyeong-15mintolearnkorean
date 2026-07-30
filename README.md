@@ -101,6 +101,8 @@ This application is 100% compatible and ready for instant deployment on static h
 - [x] Harmonized color themes for module cards (Red for History, Purple for Learning)
 - [x] Automatic stroke validation on the writing board (stencil path accuracy comparison, green celebration effect & audio pronunciation)
 
+- [x] Local native Korean audio files for all 57 Jamo & pop-culture terms (426 KB total, 100% click-only playback)
+
 ### ⏳ To Do
 
 - All core roadmap features completed! 🎉
