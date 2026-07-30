@@ -1,12 +1,16 @@
 <div align="center">
 
-  <h1>🇰🇷 Learn to Read Korean in 15 Minutes</h1>
+  <a href="https://metanef.github.io/annyeong-15mintolearnkorean/">
+    <img src="favicon.svg" width="96" height="96" alt="Annyeong Logo" />
+  </a>
+
+  <h1>Annyeong! Learn to Read Korean in 15 Minutes</h1>
 
   <p><strong>An interactive, visual single-page web application designed to teach the fundamentals of reading Hangul (the Korean alphabet) in under 15 minutes.</strong></p>
 
   <p>
     <a href="https://metanef.github.io/annyeong-15mintolearnkorean/"><img src="https://img.shields.io/badge/LIVE%20DEMO-PLAY%20ONLINE-2ecc71?style=for-the-badge" alt="Live Demo" /></a>
-    <img src="https://img.shields.io/badge/VERSION-1.2.0-9b59b6?style=for-the-badge" alt="Version" />
+    <img src="https://img.shields.io/badge/VERSION-1.3.0-9b59b6?style=for-the-badge" alt="Version" />
   </p>
 
   <p>
@@ -111,6 +115,11 @@ This application is 100% compatible and ready for instant deployment on static h
 - [x] 100% offline native Korean MP3 audio for all 57 terms, organized into clean subfolders (`consonant`, `vowels`, `double_consonant`, `compound_vowels`, `training`)
 - [x] Dynamic action button labels (`Next →` vs `Start Section →`) and bug fixes for card content updates
 
-### ⏳ To Do
+### ⏳ Future Roadmap (To Do)
 
-- All core roadmap features completed! 🎉
+- [ ] **Dynamic Card Micro-Animations:** Add CSS/JS 3D flip, smooth slide transitions, and interactive hover animations for lesson cards.
+- [ ] **3 Specialized Training Modes:**
+  - ⚡ **Speed Recognition Quiz:** Fast-paced multiple choice matching for consonants & vowels
+  - ✍️ **Guided Stroke Challenge:** Interactive drawing mode with stroke matching with the real character
+  - 🎧 **Audio Ear-Training Mode:** Listening practice mode to match native Korean sound clips with the correct Hangul character
+- [ ] **Progress Persistence:** LocalStorage-based achievement badges and completion tracking

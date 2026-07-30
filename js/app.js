@@ -439,7 +439,7 @@ function renderHistoryStep() {
     content.innerHTML = `
         <div class="text-7xl mb-6 mt-4 drop-shadow-md transform transition-transform hover:scale-110">${step.emoji}</div>
         <h2 class="text-2xl font-black text-slate-800 mb-6">${step.title}</h2>
-        <div class="bg-rose-50/50 rounded-2xl p-6 border border-rose-100 text-left mx-auto max-w-lg shadow-inner">
+        <div class="bg-rose-50/50 rounded-2xl p-6 border border-rose-100 text-left mx-auto max-w-lg">
             <p class="text-slate-700 font-medium text-base leading-relaxed">
                 ${step.content}
             </p>
