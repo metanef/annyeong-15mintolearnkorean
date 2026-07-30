@@ -6,7 +6,7 @@
 
   <p>
     <a href="https://metanef.github.io/annyeong-15mintolearnkorean/"><img src="https://img.shields.io/badge/LIVE%20DEMO-PLAY%20ONLINE-2ecc71?style=for-the-badge" alt="Live Demo" /></a>
-    <img src="https://img.shields.io/badge/VERSION-1.1.0-9b59b6?style=for-the-badge" alt="Version" />
+    <img src="https://img.shields.io/badge/VERSION-1.2.0-9b59b6?style=for-the-badge" alt="Version" />
   </p>
 
   <p>
@@ -49,8 +49,8 @@ This application is 100% compatible and ready for instant deployment on static h
 - **Interactive Visual Mnemonics:** Association of Hangul consonants and vowels with visual shapes and Ryan Estrada's mnemonic method (e.g., `ㄱ` looking like a **G**un, `ㄷ` looking like a **D**oor).
 - **The "Notch" Rule Slide:** Explains Ryan Estrada's method on how adding a notch transforms consonants (`ㄱ` → `ㅋ`, `ㄷ` → `ㅌ`, `ㅇ` → `ㅎ`, `ㅅ` → `ㅈ` → `ㅊ`).
 - **Dynamic Slide Counters:** Clear card-level step counts (e.g., `1 / 14` for basic consonants, `1 / 10` for vowels).
-- **Interactive Writing Practice:** A built-in HTML5 Canvas-based sketchpad modal that lets users practice drawing each character with a guiding stencil backdrop.
-- **Audio Pronunciation:** Integrates with the browser's native Web Speech API (`SpeechSynthesis`) to read out the correct Korean pronunciation for every character and syllable.
+- **Interactive Dual-Canvas Writing Practice:** Built-in dual-canvas sketchpad modal with real-time 80% accuracy corridor validation and celebration sound.
+- **100% Offline Native Audio Pronunciation:** High-quality native Korean MP3 audio files for all 57 Jamo and training terms (426 KB total), played exclusively on user click.
 - **Progress Tracking & Four Learning Modules:** Step-by-step Jamo course, Pop-Culture training, Interactive Review Table, and the History of Hangul.
 
 ---
@@ -61,8 +61,8 @@ This application is 100% compatible and ready for instant deployment on static h
 - **Styling:** [Tailwind CSS v4](https://tailwindcss.com/) (loaded dynamically via CDN for maximum portability) and custom CSS (`css/style.css`)
 - **Typography:** [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans) via Google Fonts
 - **Interactivity & Logic:** Modern Vanilla JavaScript (ES6+) separated into logic (`js/app.js`) and course data (`js/data.js`)
-- **Canvas Rendering:** Native HTML5 Canvas API for touch-and-mouse drawing practice
-- **Audio synthesis:** Native Web Speech API (`SpeechSynthesis`) configured for Korean locale (`ko-KR`)
+- **Canvas Rendering:** Dual-canvas architecture (`#guide-canvas` & `#paint-canvas`) for pixel-perfect stencil validation
+- **Audio System:** Offline MP3 audio assets mapped via `AUDIO_MAP` with Web Speech API fallback
 
 ### 📁 File Structure
 
@@ -71,9 +71,17 @@ This application is 100% compatible and ready for instant deployment on static h
 ├── index.html       # Main application structure and UI layout
 ├── css/
 │   └── style.css    # Custom animations and fonts
-└── js/
-    ├── app.js       # Core logic (navigation, canvas drawing, speech synthesis, quiz handling)
-    └── data.js      # Constant course data (Jamo lists, exercises, mnemonics)
+├── js/
+│   ├── app.js       # Core logic (navigation, dual-canvas validation, audio playback, quiz handling)
+│   └── data.js      # Course data (Jamo lists, training exercises, mnemonics)
+├── assets/
+│   └── audio/       # 57 offline native Korean MP3 files organized into subfolders:
+│       ├── consonant/
+│       ├── vowels/
+│       ├── double_consonant/
+│       ├── compound_vowels/
+│       └── training/
+└── scripts/         # Automated asset utility scripts
 ```
 
 ---
@@ -87,7 +95,7 @@ This application is 100% compatible and ready for instant deployment on static h
 
 ## 📌 TODO
 
-### ✅ Done (Validated)
+### ✅ Done (Validated in v1.2.0)
 - [x] Modular Architecture (HTML/CSS/JS)
 - [x] Interactive Review Table (Auto-evaluation, Audio, Drawing)
 - [x] "Pop-Culture" Training Mode (Ryan Estrada method)
@@ -99,9 +107,9 @@ This application is 100% compatible and ready for instant deployment on static h
 - [x] Unified card format & height across slides and lesson cards (no layout jumps)
 - [x] Footer links to Ryan Estrada's comic and author profile
 - [x] Harmonized color themes for module cards (Red for History, Purple for Learning)
-- [x] Automatic stroke validation on the writing board (stencil path accuracy comparison, green celebration effect & audio pronunciation)
-
-- [x] Local native Korean audio files for all 57 Jamo & pop-culture terms (426 KB total, 100% click-only playback)
+- [x] Dual-canvas stroke accuracy validation (80% corridor threshold & celebratory feedback)
+- [x] 100% offline native Korean MP3 audio for all 57 terms, organized into clean subfolders (`consonant`, `vowels`, `double_consonant`, `compound_vowels`, `training`)
+- [x] Dynamic action button labels (`Next →` vs `Start Section →`) and bug fixes for card content updates
 
 ### ⏳ To Do
 
