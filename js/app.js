@@ -425,13 +425,117 @@ canvas.addEventListener('touchstart', startPosition);
 canvas.addEventListener('touchend', finishedPosition);
 canvas.addEventListener('touchmove', draw);
 
-function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+function resetDrawFeedback() {
+    const box = document.getElementById('canvas-container-box');
+    const badge = document.getElementById('draw-feedback-badge');
+    if (box) {
+        box.className = "relative w-64 h-64 mx-auto mb-3 border-2 border-indigo-200 rounded-2xl overflow-hidden bg-slate-50 transition-all duration-300";
+    }
+    if (badge) {
+        badge.className = "min-h-[28px] mb-3 text-xs font-bold transition-all flex items-center justify-center rounded-xl py-1 px-3";
+        badge.innerHTML = "";
+    }
+}
+
+function clearCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    resetDrawFeedback();
+}
+
 function openDrawModal(charTarget = null) {
     clearCanvas();
-    if (charTarget) document.getElementById('canvas-guide-char').innerText = charTarget;
+    const targetChar = (typeof charTarget === 'string' && charTarget) ? charTarget : (document.getElementById('char-target')?.innerText || 'ㄱ');
+    document.getElementById('canvas-guide-char').innerText = targetChar;
     document.getElementById('draw-modal').classList.remove('hidden');
 }
-function closeDrawModal() { document.getElementById('draw-modal').classList.add('hidden'); }
+
+function closeDrawModal() {
+    document.getElementById('draw-modal').classList.add('hidden');
+    resetDrawFeedback();
+}
+
+/**
+ * Calculates accuracy between user drawing on canvas and stencil target character.
+ * Uses offscreen canvas stencil rendering with stroke padding for human drawing tolerance.
+ */
+function validateDrawing() {
+    const targetChar = document.getElementById('canvas-guide-char').innerText || 'ㄱ';
+    const badge = document.getElementById('draw-feedback-badge');
+    const box = document.getElementById('canvas-container-box');
+
+    // 1. Check if user drew anything
+    const userImgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let userPixelCount = 0;
+    for (let i = 3; i < userImgData.length; i += 4) {
+        if (userImgData[i] > 30) userPixelCount++;
+    }
+
+    if (userPixelCount < 60) {
+        badge.className = "min-h-[28px] mb-3 text-xs font-bold bg-amber-50 text-amber-600 border border-amber-200 rounded-xl py-1 px-3 flex items-center justify-center";
+        badge.innerHTML = "✏️ Please draw over the letter guide first!";
+        return;
+    }
+
+    // 2. Render target stencil on offscreen canvas
+    const offscreen = document.createElement('canvas');
+    offscreen.width = 256;
+    offscreen.height = 256;
+    const offCtx = offscreen.getContext('2d');
+
+    offCtx.fillStyle = '#000000';
+    offCtx.strokeStyle = '#000000';
+    offCtx.lineWidth = 28; // Generous stroke tolerance width for human handwriting
+    offCtx.lineJoin = 'round';
+    offCtx.lineCap = 'round';
+    offCtx.font = '900 130px "Plus Jakarta Sans", sans-serif';
+    offCtx.textAlign = 'center';
+    offCtx.textBaseline = 'middle';
+    offCtx.fillText(targetChar, 128, 128);
+    offCtx.strokeText(targetChar, 128, 128);
+
+    const stencilData = offCtx.getImageData(0, 0, 256, 256).data;
+
+    // 3. Compare user drawing pixels with stencil pixels
+    let stencilPixelCount = 0;
+    let overlapCount = 0;
+
+    for (let i = 3; i < stencilData.length; i += 4) {
+        const isStencil = stencilData[i] > 30;
+        const isUser = userImgData[i] > 30;
+
+        if (isStencil) stencilPixelCount++;
+        if (isStencil && isUser) overlapCount++;
+    }
+
+    const coverage = stencilPixelCount > 0 ? (overlapCount / stencilPixelCount) : 0;
+    const inBoundsRatio = userPixelCount > 0 ? (overlapCount / userPixelCount) : 0;
+
+    // Weighted accuracy score: 75% coverage + 25% precision
+    let rawScore = (coverage * 0.75) + (Math.min(inBoundsRatio, 1) * 0.25);
+    let accuracyPct = Math.min(Math.round(rawScore * 135), 99); // Normalized scale
+
+    const PASS_THRESHOLD = 60; // 60% normalized threshold provides rewarding tolerance
+
+    if (accuracyPct >= PASS_THRESHOLD) {
+        // SUCCESS!
+        box.className = "relative w-64 h-64 mx-auto mb-3 border-4 border-emerald-500 rounded-2xl overflow-hidden bg-emerald-50/30 transition-all duration-300 shadow-lg shadow-emerald-100";
+        badge.className = "min-h-[28px] mb-3 text-xs font-bold bg-emerald-100 text-emerald-700 border border-emerald-300 rounded-xl py-1 px-3 flex items-center justify-center fade-in";
+        badge.innerHTML = `🎉 ${accuracyPct}% Accuracy! Excellent stroke! ✨`;
+
+        // Play audio pronunciation of the letter
+        playSpecificAudio(targetChar);
+
+        // Auto close after success feedback animation
+        setTimeout(() => {
+            closeDrawModal();
+        }, 1200);
+    } else {
+        // TRY AGAIN
+        box.className = "relative w-64 h-64 mx-auto mb-3 border-4 border-rose-400 rounded-2xl overflow-hidden bg-rose-50/30 transition-all duration-300";
+        badge.className = "min-h-[28px] mb-3 text-xs font-bold bg-rose-50 text-rose-600 border border-rose-200 rounded-xl py-1 px-3 flex items-center justify-center fade-in";
+        badge.innerHTML = `✏️ ${accuracyPct}% Accuracy — Try covering the guide character!`;
+    }
+}
 
 if ('speechSynthesis' in window) {
     window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();

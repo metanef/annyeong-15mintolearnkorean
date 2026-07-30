@@ -99,7 +99,8 @@ This application is 100% compatible and ready for instant deployment on static h
 - [x] Unified card format & height across slides and lesson cards (no layout jumps)
 - [x] Footer links to Ryan Estrada's comic and author profile
 - [x] Harmonized color themes for module cards (Red for History, Purple for Learning)
+- [x] Automatic stroke validation on the writing board (stencil path accuracy comparison, green celebration effect & audio pronunciation)
 
 ### ⏳ To Do
 
-- [ ] Automatic stroke validation on the writing board (80% accuracy check on stencil path)
+- All core roadmap features completed! 🎉
